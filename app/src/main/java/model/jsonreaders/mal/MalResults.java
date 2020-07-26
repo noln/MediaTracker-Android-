@@ -2,19 +2,22 @@ package model.jsonreaders.mal;
 
 
 
+import androidx.annotation.NonNull;
+
 import java.util.Iterator;
 import java.util.List;
 
-public class MalResults implements Iterable<MalResults> {
+public class MalResults implements Iterable<MalMediaItem> {
 
-    private List<MalResults> results;
+    private List<MalMediaItem> results;
 
-    //This will actually never be instantiated
-
+    @NonNull
     @Override
-    public Iterator<MalResults> iterator() {
+    public Iterator<MalMediaItem> iterator() {
         return results.iterator();
     }
+
+    //This will actually never be instantiated
 
 
 }

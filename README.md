@@ -19,4 +19,3 @@ store information about anime, drama, movies and more in one app.
 - Able to sync data through FireBase on any phone
 - Able to view different trends, top shows of the current seasons
 
-

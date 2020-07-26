@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+
     private static void processListData(ArrayList<MediaList> listRead, ListManager listColl) throws KeyAlreadyExistsException {
         if (listRead != null) {
             for (MediaList list: listRead) {
