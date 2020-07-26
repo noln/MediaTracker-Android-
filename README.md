@@ -14,7 +14,7 @@ store information about anime, drama, movies and more in one app.
 - Save the data locally on the phone
 - Search and sort the lists
 
-Working on:
+## Working on
 - Creating custom, MyAnimeList, IMDb, MyDramaList items and getting information
 - Able to sync data through FireBase on any phone
 - Able to view different trends, top shows of the current seasons
