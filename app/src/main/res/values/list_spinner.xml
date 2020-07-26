@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_spinner_array">
+        <item>Name</item>
+        <item>Recent</item>
+        <item>Date Created</item>
+        <item>Most Used</item>
+    </string-array>
+</resources>

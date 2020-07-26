@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "14994986450",
+    "firebase_url": "https://mediatracker-cd0c2.firebaseio.com",
+    "project_id": "mediatracker-cd0c2",
+    "storage_bucket": "mediatracker-cd0c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14994986450:android:3aa53c230002be8467640b",
+        "android_client_info": {
+          "package_name": "com.example.mediatracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14994986450-56tut3hi56pn9j7qa20eu18ra5ft72nn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mediatracker",
+            "certificate_hash": "af207fa92d9b406662e77228983e62779d333aee"
+          }
+        },
+        {
+          "client_id": "14994986450-lgfd1r5h1j9n0ddvvnucusub416ek56s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7clqYqEmMmNanQOGi8yDIVRr9zD3gMgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14994986450-lgfd1r5h1j9n0ddvvnucusub416ek56s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
