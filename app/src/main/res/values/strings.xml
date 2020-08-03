@@ -36,6 +36,19 @@
     <string name="confirm_button">Confirm</string>
     <string name="list_already_exist">List with that name already exist!</string>
     <string name="list_empty_name">List name cannot be empty!</string>
+    <string name="list_date_created">Date Created: </string>
+    <string name="list_number_items">Items: </string>
 
+    <!-- Strings used to describe an item -->
+    <string name="item_episodes">Episodes: </string>
+    <string name="item_type">Type: </string>
+    <string name="item_status">Status: </string>
+    <string name="item_rating">Rating: </string>
+    <string name="item_title">Sample Title Text</string>
+
+    <!-- Strings used for different type of items -->
+    <string name="my_anime_list">My Anime List</string>
+    <string name="imdb_resource">IMDB</string>
+    <string name="my_drama_list">My Drama List</string>
 
 </resources>

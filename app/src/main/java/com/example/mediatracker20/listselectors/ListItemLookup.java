@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.adapters.MediaListAdapter;
 
+//MediaList look up for selection tracker
 public class ListItemLookup extends ItemDetailsLookup {
 
     private final RecyclerView recyclerView;

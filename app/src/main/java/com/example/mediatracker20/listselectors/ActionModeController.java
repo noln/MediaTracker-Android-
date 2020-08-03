@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import androidx.recyclerview.selection.SelectionTracker;
 
 import com.example.mediatracker20.R;
+import com.example.mediatracker20.adapters.MediaItemAdapter;
 import com.example.mediatracker20.adapters.MediaListAdapter;
 
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import model.model.ListManager;
 import model.model.MediaItem;
 import model.model.MediaList;
 
+//Controls action mode for selection trackers
 public class ActionModeController implements ActionMode.Callback {
 
     private Context context;
@@ -32,13 +34,16 @@ public class ActionModeController implements ActionMode.Callback {
     private boolean isList;
     private ActionMode actionMode;
     private MediaListAdapter mediaListAdapter;
+    private MediaItemAdapter mediaItemAdapter;
+
 
     public ActionModeController(Context context, SelectionTracker selectionTracker, List<MediaList> list, MediaListAdapter adapter) {
         construct(context, selectionTracker, adapter);
         currentList = list;
         isList = true;
     }
-    public ActionModeController(Context context, SelectionTracker selectionTracker, List<MediaItem> mediaItemList, String listName, MediaListAdapter adapter) {
+
+    public ActionModeController(Context context, SelectionTracker selectionTracker, List<MediaItem> mediaItemList, String listName, MediaItemAdapter adapter) {
         construct(context, selectionTracker, adapter);
         currentItems = mediaItemList;
         this.listName = listName;
@@ -51,6 +56,14 @@ public class ActionModeController implements ActionMode.Callback {
         this.listManager = ListManager.getInstance();
         this.mediaListAdapter = adapter;
     }
+
+    private void construct(Context context, SelectionTracker selectionTracker, MediaItemAdapter adapter) {
+        this.context = context;
+        this.selectionTracker = selectionTracker;
+        this.listManager = ListManager.getInstance();
+        this.mediaItemAdapter = adapter;
+    }
+
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -91,7 +104,7 @@ public class ActionModeController implements ActionMode.Callback {
                 mediaListAdapter.notifyDataSetChanged();
                 //snackbar
                 break;
-        case "Move Item":
+            case "Move Item":
                 break;
             default:
                 break;
@@ -100,6 +113,7 @@ public class ActionModeController implements ActionMode.Callback {
 
     private void handleItemActions(MenuItem item, ActionMode mode) {
         Iterator<MediaItem> itemIterator = selectionTracker.getSelection().iterator();
+
     }
 
     @Override

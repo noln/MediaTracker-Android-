@@ -19,6 +19,7 @@ public class ReadUserItem {
     private String date;
     private String episode;
     private String id;
+    private String userRating;
 
     //This will actually never be instantiated
     public ReadUserItem() {
@@ -33,6 +34,14 @@ public class ReadUserItem {
         websiteLink = "testWebsitelink";
         date = "testDate";
         episode = "testEpisode";
+    }
+
+    public String getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(String rating) {
+        userRating = rating;
     }
 
     public String getEpisode() {

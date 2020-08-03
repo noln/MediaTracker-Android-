@@ -2,6 +2,7 @@ package com.example.mediatracker20;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -14,21 +15,21 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mediatracker20.adapters.MediaListAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.mediatracker20.adapters.Saver;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.IOException;
+
 
 import model.model.ListManager;
-import model.model.MediaList;
+import model.persistence.Writer;
 
+//Main activity to navigate from lists to items
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -69,8 +70,25 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
 
-  }
+    }
 
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Saver.getInstance().isChanged()) {
+            try {
+                File listFile = new File(this.getFilesDir(), "listFile.txt");
+                File tagFile = new File(this.getFilesDir(), "tagFile.txt");
+                File itemFile = new File(this.getFilesDir(), "itemFile.txt");
+                Writer writer = new Writer(listFile, tagFile, itemFile);
+                writer.write(ListManager.getInstance());
+                writer.close();
+                Saver.getInstance().saved();
+            } catch (IOException | JSONException e) {
+                Log.d("fail save", "save failed");
+                e.printStackTrace();
+            }
+            ;
+        }
+    }
 }

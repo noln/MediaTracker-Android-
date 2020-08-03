@@ -18,6 +18,4 @@ public class MalResults implements Iterable<MalMediaItem> {
     }
 
     //This will actually never be instantiated
-
-
 }

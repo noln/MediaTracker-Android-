@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="item_sources_array">
+        <item>MyAnimeList</item>
+        <item>IMDB</item>
+        <item>MyDramaList</item>
+    </string-array>
+</resources>

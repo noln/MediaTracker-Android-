@@ -9,6 +9,7 @@
         <item name="actionModeStyle">@style/MyActionBar</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -24,5 +25,9 @@
         <item name="android:background">@color/cardview_dark_background</item>
         <!--For compatibility-->
         <item name="background">@color/cardview_dark_background</item>
+    </style>
+
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
     </style>
 </resources>

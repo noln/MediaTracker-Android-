@@ -37,6 +37,7 @@ public class MediaItem {
         itemDetails.put("Type", ""); //mal, custom, or imdb
         itemDetails.put("Episodes", "");
         itemDetails.put("Id", "");
+        itemDetails.put("UserRating", "");
     }
 
     // MODIFIES: this
@@ -183,6 +184,7 @@ public class MediaItem {
         mediaObject.put("type", itemDetails.get("Type"));
         mediaObject.put("episode", itemDetails.get("Episode"));
         mediaObject.put("id", itemDetails.get("Id"));
+        mediaObject.put("userRating", itemDetails.get("UserRating"));
         JSONArray listMetaData = new JSONArray();
         JSONArray tagMetaData = new JSONArray();
         for (MetaData data: listData) {

@@ -3,30 +3,30 @@ package com.example.mediatracker20.listselectors;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemKeyProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import model.model.MediaList;
 
-public class KeyProvider extends ItemKeyProvider {
+//Key provider for MediaLists
+public class KeyProviderLists extends ItemKeyProvider {
 
-    private final List<MediaList> itemList;
+    private final List<MediaList> mediaLists;
 
-    public KeyProvider(int scope, List<MediaList> itemList) {
+
+    public KeyProviderLists(int scope, List<MediaList> mediaLists) {
         super(scope);
-        this.itemList = itemList;
+        this.mediaLists = mediaLists;
     }
-
 
     @Nullable
     @Override
     public Object getKey(int position) {
-        return itemList.get(position);
+        return mediaLists.get(position);
     }
 
     @Override
     public int getPosition(@NonNull Object key) {
-        return itemList.indexOf(key);
+        return mediaLists.indexOf(key);
     }
 }
