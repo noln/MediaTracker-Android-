@@ -14,7 +14,7 @@
     <string name="action_save">Save</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_all_items">All Items</string>
+    <string name="menu_all_items">Search</string>
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
@@ -47,8 +47,21 @@
     <string name="item_title">Sample Title Text</string>
 
     <!-- Strings used for different type of items -->
-    <string name="my_anime_list">My Anime List</string>
+    <string name="my_anime_list_anime">MAL Anime</string>
+    <string name="my_anime_list_manga">MAL Manga</string>
     <string name="imdb_resource">IMDB</string>
-    <string name="my_drama_list">My Drama List</string>
+    <string name="my_drama_list">MyDramaList</string>
+    <string name="ani_list_anime">AniList Anime</string>
+    <string name="ani_list_manga">AniList Manga</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <!-- Strings for classifying sources -->
+    <string name="anime_sources">Anime/Manga</string>
+    <string name="general_sources">General</string>
+    <string name="drama_sources">Drama</string>
+    <string name="all_sources">All Sources</string>
+
 
 </resources>

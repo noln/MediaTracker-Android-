@@ -20,7 +20,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <color name="transparent_black">#E6696969</color>
+
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar.Solid">
         <item name="android:background">@color/cardview_dark_background</item>
         <!--For compatibility-->

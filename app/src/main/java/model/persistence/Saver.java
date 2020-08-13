@@ -1,4 +1,4 @@
-package com.example.mediatracker20.adapters;
+package model.persistence;
 
 public class Saver {
     static boolean isChanged;

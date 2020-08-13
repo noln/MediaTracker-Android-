@@ -18,12 +18,17 @@ import okhttp3.Response;
 public class SearchData {
 
     private static final OkHttpClient client = new OkHttpClient();
+
     private static final String IM_DB_FIND_URL = "https://imdb8.p.rapidapi.com/title/find?q=";
-    private static final String API_KEY = ""; //my api key stored locally. get your's at rapid api
+
     private static final String IM_DB_OVERVIEW_URL = "https://imdb8.p.rapidapi.com/title/get-overview-details?currentCountry=US&tconst=";
+    private static final String IM_DB_RAPID_HOST_URL = "imdb8.p.rapidapi.com";
+
     private static final String RAPID_HOST_URL = "x-rapidapi-host";
     private static final String RAPID_HOST_KEY = "x-rapidapi-key";
-    private static final String IM_DB_RAPID_HOST_URL = "imdb8.p.rapidapi.com";
+
+    private static final String API_KEY = ""; //my api key stored locally. get your's at rapid api
+
     private static final String MAL_RAPID_HOST_URL = "jikan1.p.rapidapi.com";
     private static final String MAL_ANIME_SEARCH_URL = "https://jikan1.p.rapidapi.com/search/anime?q=";
     private static final String MAL_MANGA_SEARCH_URL = "https://jikan1.p.rapidapi.com/search/manga?q=";

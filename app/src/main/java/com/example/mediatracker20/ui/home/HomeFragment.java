@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
-import com.example.mediatracker20.adapters.Saver;
+import model.persistence.Saver;
 import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderLists;
 import com.example.mediatracker20.listselectors.ListItemLookup;

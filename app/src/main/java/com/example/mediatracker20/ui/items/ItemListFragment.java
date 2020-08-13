@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.selection.OnDragInitiatedListener;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
@@ -35,7 +36,6 @@ import com.example.mediatracker20.R;
 import com.example.mediatracker20.adapters.MediaItemAdapter;
 import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderItems;
-import com.example.mediatracker20.listselectors.KeyProviderLists;
 import com.example.mediatracker20.listselectors.ListItemLookup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -65,10 +65,8 @@ public class ItemListFragment extends Fragment {
     private MediaItemAdapter mediaItemAdapter;
     private RecyclerView recyclerView;
     private Spinner spinner;
-    private Dialog newListDialog;
     private ActionMode actionMode;
     private Menu menu;
-    private FloatingActionButton fab;
     private SearchView searchView;
 
     //current list
@@ -85,7 +83,6 @@ public class ItemListFragment extends Fragment {
         initializeRecyclerView();
         initializeSearchView();
         initializeSpinner();
-        initializeFab();
         return rootView;
     }
 
@@ -93,7 +90,6 @@ public class ItemListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ItemListViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     private void initializeSearchView() {
@@ -115,16 +111,6 @@ public class ItemListFragment extends Fragment {
         });
     }
 
-//    private static void processListData(ArrayList<MediaList> listRead, ListManager listColl) throws KeyAlreadyExistsException {
-//        if (listRead != null) {
-//            for (MediaList list: listRead) {
-//                listColl.addNewList(list);
-//            }
-//        } else {
-//            System.out.println("There are no lists");
-//        }
-//    }
-//
 //    //initialize list of cardViews to show all lists
     private void initializeRecyclerView() {
         recyclerView = rootView.findViewById(R.id.card_display);
@@ -186,15 +172,11 @@ public class ItemListFragment extends Fragment {
                             selectionTracker, allItems, listName, mediaItemAdapter));
                     Integer size = selectionTracker.getSelection().size();
                     actionMode.setTitle(size.toString());
-                    fab.setClickable(false);
-                    fab.hide();
                     searchView.clearFocus();
                     searchView.setInputType(InputType.TYPE_NULL);
                 } else if (!selectionTracker.hasSelection() && actionMode != null) {
                     actionMode.finish();
                     actionMode = null;
-                    fab.setClickable(true);
-                    fab.show();
                     searchView.setInputType(InputType.TYPE_CLASS_TEXT);
                 } else if (selectionTracker.hasSelection()){
                     Integer size = selectionTracker.getSelection().size();
@@ -205,26 +187,6 @@ public class ItemListFragment extends Fragment {
 
     }
 
-    //initialize fab to for new item creation.
-    private void initializeFab() {
-        newListDialog = new Dialog(getContext());
-        fab = rootView.findViewById(R.id.newItemBtn);
-        fab.setOnClickListener(view -> {
-            searchView.clearFocus();
-            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-            mBuilder.setTitle("Choose an item");
-            String[] listItems = getResources().getStringArray(R.array.item_sources_array);
-            mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    //mResult.setText(listItems[i]);
-                    dialogInterface.dismiss();
-                }
-            });
-            AlertDialog mDialog = mBuilder.create();
-            mDialog.show();
-        });
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
