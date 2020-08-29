@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.selection.OnDragInitiatedListener;
@@ -65,6 +66,7 @@ public class HomeFragment extends Fragment {
     private ActionMode actionMode;
     private Menu menu;
     private  SearchView searchView;
+    private SelectionTracker selectionTracker;
 
     //Handle view creation and ui actions
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -151,7 +153,7 @@ public class HomeFragment extends Fragment {
 
     //initialize a selection tracker to allow multiple item selections
     private void initializeSelectionTracker() {
-        SelectionTracker selectionTracker = new SelectionTracker.Builder<>(
+        selectionTracker = new SelectionTracker.Builder<>(
                 "my-selection-id",
                 recyclerView,
                 new KeyProviderLists(1, allLists),
@@ -263,6 +265,5 @@ public class HomeFragment extends Fragment {
         }
         mediaListAdapter.notifyDataSetChanged();
 }
-
 
 }

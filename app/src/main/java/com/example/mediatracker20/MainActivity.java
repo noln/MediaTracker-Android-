@@ -1,8 +1,10 @@
 package com.example.mediatracker20;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -84,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             ;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        View f = findViewById(R.id.home_fragment_content);
+        if (f != null && f.getTag() == getString(R.string.home_fragment_tag)) {
+            finishAffinity();
+        } else {
+            super.onBackPressed();
         }
     }
 }

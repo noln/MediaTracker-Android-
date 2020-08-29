@@ -121,7 +121,7 @@ public class ItemListFragment extends Fragment {
             e.printStackTrace();
         }
         allItems = listManager.getListOfMedia(chosenList);
-        mediaItemAdapter = new MediaItemAdapter(allItems, chosenList);
+        mediaItemAdapter = new MediaItemAdapter(allItems, chosenList, R.id.action_itemListFragment_to_itemSumamry);
         recyclerView.setAdapter(mediaItemAdapter);
     }
 //

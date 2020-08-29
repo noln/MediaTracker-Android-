@@ -21,6 +21,7 @@ import model.exceptions.ItemNotFoundException;
 import model.model.ListManager;
 import model.model.MediaItem;
 import model.model.MediaList;
+import model.persistence.Saver;
 
 //Controls action mode for selection trackers
 public class ActionModeController implements ActionMode.Callback {
@@ -102,6 +103,7 @@ public class ActionModeController implements ActionMode.Callback {
                 }
                 onDestroyActionMode(mode);
                 mediaListAdapter.notifyDataSetChanged();
+                Saver.getInstance().appChanged();
                 //snackbar
                 break;
             case "Move Item":

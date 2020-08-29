@@ -1,8 +1,14 @@
 package model.persistence;
 
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import model.*;
 import model.jsonreaders.ReadUserItem;
 import model.model.MediaList;
@@ -12,6 +18,7 @@ import model.model.Tag;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 // A reader that can read list data from file. Modeled after Teller App

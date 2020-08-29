@@ -1,5 +1,6 @@
 package com.example.mediatracker20.adapters;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,21 +46,23 @@ public class SearchSourcesAdapter extends RecyclerView.Adapter<SearchSourcesAdap
             @Override
             public void onClick(View v) {
                 int actionId;
+                Bundle bundle = new Bundle();
+                bundle.putString("Source_Title" , mediaSource.getTitle());
                 switch (mediaSource.getType()) {
-                    case "general":
-                        //actionId =
-                        break;
                     case "anime":
-                        //actionId =
+                        actionId = R.id.action_nav_gallery_to_animeSearch;
                         break;
                     case "manga":
-                        //actionId =
+                        actionId = R.id.action_nav_gallery_to_mangaSearch;
                         break;
                     case "drama":
-                        //actionId =
+                        actionId = R.id.action_nav_gallery_to_dramaSearch;
+                        break;
+                    default:
+                        actionId = R.id.action_nav_gallery_to_generalSearch;
                         break;
                 }
-                //Navigation.findNavController(holder.itemView).navigate();
+                Navigation.findNavController(holder.itemView).navigate(actionId, bundle);
             }
         });
     }

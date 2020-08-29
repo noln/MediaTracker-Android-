@@ -7,11 +7,12 @@
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/home_fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
         android:orientation="vertical"
+        android:tag="@string/home_fragment_tag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

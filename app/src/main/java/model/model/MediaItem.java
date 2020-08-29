@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.*;
 
 import model.exceptions.DataExistAlreadyException;
@@ -12,7 +13,7 @@ import model.exceptions.EmptyStringException;
 import model.exceptions.ItemNotFoundException;
 
 // Represents a abstract media(Movies, tv show...) with different information
-public class MediaItem {
+public class MediaItem implements Serializable {
     protected Map<String, String> itemDetails;
     protected ArrayList<MetaData> listData;
     protected ArrayList<MetaData> tagData;

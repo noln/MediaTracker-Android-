@@ -80,15 +80,14 @@ public class ListManager implements SaveAble {
             throws ItemNotFoundException, DataExistAlreadyException, KeyAlreadyExistsException {
         listAlreadyExists(mediaList);
         ArrayList<MediaItem> list = listAndItems.get(mediaList);
-        try {
-            getMediaItemInListByName(mediaItem.getItemInfo("Title"), list);
-        } catch (ItemNotFoundException e) {
-            list.add(mediaItem);
-            mediaItem.updateData("List", mediaList.getName());
-            ItemManager.getInstance().addItem(mediaItem);
-            return;
-        }
-        throw new KeyAlreadyExistsException();
+//        try {
+//            getMediaItemInListByName(mediaItem.getItemInfo("Title"), list);
+//        } catch (ItemNotFoundException e) {
+        list.add(mediaItem);
+        mediaItem.updateData("List", mediaList.getName());
+        ItemManager.getInstance().addItem(mediaItem);
+        //}
+        //throw new KeyAlreadyExistsException();
     }
 
     // MODIFIES: this

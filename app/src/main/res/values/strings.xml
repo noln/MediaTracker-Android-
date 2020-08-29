@@ -1,6 +1,7 @@
 <resources>
     <!-- Strings for general/titles -->
     <string name="app_name">MediaTracker 2.0</string>
+    <string name="search">Search</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -21,6 +22,8 @@
     <string name="fail_to_sign_in">Sign In Failed</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="home_fragment_tag">home fragment</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -38,6 +41,11 @@
     <string name="list_empty_name">List name cannot be empty!</string>
     <string name="list_date_created">Date Created: </string>
     <string name="list_number_items">Items: </string>
+
+    <!-- Strings used to set api key -->
+    <string name="api_key_prompt">Enter your key from RapidAPI</string>
+    <string name="api_key_hint">API KEY</string>
+    <string name="api_key_menu_option">Set API Key</string>
 
     <!-- Strings used to describe an item -->
     <string name="item_episodes">Episodes: </string>
@@ -62,6 +70,18 @@
     <string name="general_sources">General</string>
     <string name="drama_sources">Drama</string>
     <string name="all_sources">All Sources</string>
+
+    <!-- Strings for Search -->
+    <string name="recommended_media">Recommended</string>
+    <string name="trending_media">Trending</string>
+    <string name="media_genre">Genre</string>
+    <string name="media_top">Top</string>
+    <string name="media_season">Seasons</string>
+    <string name="media_upcoming">Upcoming</string>
+    <string name="no_connection">No Internet Connection</string>
+
+
+    <string name="hello_blank_fragment">Work In Progress</string>
 
 
 </resources>
