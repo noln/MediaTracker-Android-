@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/media_frag_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mediatracker20.ui.items.ItemListFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/media_frag_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,18 +18,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/media_frag_top"
             android:layout_width="match_parent"
             android:layout_height="59dp"
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/sort_choice"
+                android:id="@+id/media_frag_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2" />
 
             <SearchView
-                android:id="@+id/item_search"
+                android:id="@+id/media_frag_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -44,7 +45,7 @@
             android:background="?android:attr/listDivider" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/card_display"
+            android:id="@+id/media_frag_recyc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

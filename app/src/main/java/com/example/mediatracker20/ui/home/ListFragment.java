@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.selection.OnDragInitiatedListener;
@@ -51,9 +50,9 @@ import model.model.MediaList;
 import model.persistence.Reader;
 
 //handles the main menu -> where all lists are displayed and interacted
-public class HomeFragment extends Fragment {
+public class ListFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private ListViewModel homeViewModel;
 
     private View rootView; //item in the views
     private List<MediaList> allLists;
@@ -80,8 +79,8 @@ public class HomeFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
 }
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        homeViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
+        rootView = inflater.inflate(R.layout.fragment_list, container, false);
         initializeSearchView();
         initializeSpinner();
         initializeRecyclerView();
@@ -93,7 +92,7 @@ public class HomeFragment extends Fragment {
 
     //Initialize the search interface
     private void initializeSearchView() {
-        searchView = rootView.findViewById(R.id.item_search);
+        searchView = rootView.findViewById(R.id.list_Frag_search);
         searchView.setQueryHint("Search");
         searchView.onActionViewExpanded();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -124,7 +123,7 @@ public class HomeFragment extends Fragment {
 
     //initialize list of cardViews to show all lists
     private void initializeRecyclerView() {
-        recyclerView = rootView.findViewById(R.id.card_display);
+        recyclerView = rootView.findViewById(R.id.list_frag_recyc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         allLists = listManager.allActiveLists().stream().collect(Collectors.toList());
         mediaListAdapter = new MediaListAdapter(allLists, actionMode);
@@ -133,7 +132,7 @@ public class HomeFragment extends Fragment {
 
     //initialize spinner for different sorting methods
     private void initializeSpinner() {
-        spinner = rootView.findViewById(R.id.sort_choice);
+        spinner = rootView.findViewById(R.id.list_frag_sort);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.list_spinner_array, R.layout.spinner_item_text);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -201,21 +200,21 @@ public class HomeFragment extends Fragment {
     //initialize fab to for new item creation.
     private void initializeFab() {
         newListDialog = new Dialog(getContext());
-        fab = rootView.findViewById(R.id.newListButton);
+        fab = rootView.findViewById(R.id.list_frag_new_btn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchView.clearFocus();
                 newListDialog.setContentView(R.layout.new_list_popup);
                 newListDialog.show();
-                Button confirm = newListDialog.findViewById(R.id.confirmButton);
-                TextView errorText = newListDialog.findViewById(R.id.errorText);
+                Button confirm = newListDialog.findViewById(R.id.new_list_confirm_btn);
+                TextView errorText = newListDialog.findViewById(R.id.new_list_error);
                 errorText.setVisibility(View.GONE);
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         searchView.setQuery("", false);
-                        EditText name = newListDialog.findViewById(R.id.newListName);
+                        EditText name = newListDialog.findViewById(R.id.new_list_title);
                         try {
                             listManager.addNewList(new MediaList(name.getText().toString()));
                             allLists.add(new MediaList(name.getText().toString()));

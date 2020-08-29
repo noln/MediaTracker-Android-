@@ -44,10 +44,10 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
         //find and assign different views
         public MediaListViewHolder(@NonNull View itemView) {
             super(itemView);
-            listTitle = itemView.findViewById(R.id.listName);
-            numberOfItems = itemView.findViewById(R.id.listItems);
-            listCreationDate = itemView.findViewById(R.id.listDateCreated);
-            layout = itemView.findViewById(R.id.card_layout);
+            listTitle = itemView.findViewById(R.id.list_card_title);
+            numberOfItems = itemView.findViewById(R.id.list_card_items);
+            listCreationDate = itemView.findViewById(R.id.list_card_date);
+            layout = itemView.findViewById(R.id.media_source_layout);
         }
 
         //provide item details lookup
@@ -94,7 +94,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
     @NonNull
     @Override
     public MediaListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_card, parent, false);
+        View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_card, parent, false);
         MediaListViewHolder evh = new MediaListViewHolder(card);
         return evh;
     }

@@ -15,9 +15,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,13 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -158,11 +150,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void showProgressBar() {
-        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_in_prog).setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
-        findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+        findViewById(R.id.sign_in_prog).setVisibility(View.INVISIBLE);
     }
 
     private void firebaseAuthWithGoogle(String idToken) {

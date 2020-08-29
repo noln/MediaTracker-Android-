@@ -15,17 +15,11 @@ import android.view.ViewGroup;
 
 import com.example.mediatracker20.R;
 import com.example.mediatracker20.adapters.MediaItemDisplayAdapter;
-import com.example.mediatracker20.adapters.MediaListAdapter;
 import com.example.mediatracker20.ui.search.data.SourceChooser;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import model.exceptions.EmptyStringException;
 import model.jsonreaders.AnimeReader;
 import model.model.MediaItem;
 import model.requests.AnimeRequest;
@@ -62,7 +56,7 @@ public class AnimeSearchDisplay extends Fragment {
 
     //initialize list of cardViews to show all lists
     private void initializeRecyclerView() {
-        recyclerView = view.findViewById(R.id.card_display);
+        recyclerView = view.findViewById(R.id.list_frag_recyc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mediaListAdapter = new MediaItemDisplayAdapter(new ArrayList<>(), R.id.action_animeSearchDisplay_to_itemSumamry);
         recyclerView.setAdapter(mediaListAdapter);

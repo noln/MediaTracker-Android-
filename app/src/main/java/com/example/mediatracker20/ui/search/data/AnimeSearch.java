@@ -64,7 +64,7 @@ public class AnimeSearch extends Fragment {
         view =  inflater.inflate(R.layout.anime_search_fragment, container, false);
         tabLayout = view.findViewById(R.id.media_tab);
         viewPager2 = view.findViewById(R.id.media_pager);
-        trendingProgress = view.findViewById(R.id.trendingProgress);
+        trendingProgress = view.findViewById(R.id.anime_search_trend_prog);
         recommendProgress = view.findViewById(R.id.media_rec_prog);
         tabLayout.setVisibility(View.GONE);
         viewPager2.setVisibility(View.GONE);
@@ -73,7 +73,7 @@ public class AnimeSearch extends Fragment {
         pagerCardAdapter = new MediaItemDisplayAdapter(mediaItems, R.id.action_animeSearch_to_itemSumamry);
         pagerCardAdapter.isPager(true);
         viewPager2.setAdapter(pagerCardAdapter);
-        trendingLayout = view.findViewById(R.id.trending_layout);
+        trendingLayout = view.findViewById(R.id.anime_search_trend_layout);
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> tab.setText("")
         ).attach();
@@ -174,7 +174,7 @@ public class AnimeSearch extends Fragment {
         private void createTopAiring() {
             for(MediaItem i: trendingItems) {
                 View c = LayoutInflater.from(getContext()).inflate(R.layout.media_item_display_card, null);
-                RelativeLayout layout = c.findViewById(R.id.item_layout);
+                RelativeLayout layout = c.findViewById(R.id.media_card_dis_layout);
                 layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -183,10 +183,10 @@ public class AnimeSearch extends Fragment {
                     Navigation.findNavController(view).navigate(R.id.action_animeSearch_to_itemSumamry, bundle);
                     }
                 });
-                TextView itemRating = c.findViewById(R.id.item_rating);
-                TextView itemTitle = c.findViewById(R.id.item_title);
-                TextView itemEpisodes = c.findViewById(R.id.item_episodes);
-                ImageView itemImage = c.findViewById(R.id.item_image);
+                TextView itemRating = c.findViewById(R.id.media_card_dis_rating);
+                TextView itemTitle = c.findViewById(R.id.media_card_dis_title);
+                TextView itemEpisodes = c.findViewById(R.id.media_card_dis_episodes);
+                ImageView itemImage = c.findViewById(R.id.media_card_dis_image);
                 itemRating.setText("Rating: " + i.getItemInfo("Rating"));
                 itemTitle.setText(i.getItemInfo("Title"));
                 itemEpisodes.setText("Episodes: " + i.getItemInfo("Episodes"));

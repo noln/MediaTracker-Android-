@@ -1,7 +1,6 @@
 package com.example.mediatracker20.adapters;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.selection.ItemDetailsLookup;
-import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
-import com.example.mediatracker20.listselectors.ListItemDetail;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import model.model.ItemManager;
-import model.model.ListManager;
 import model.model.MediaItem;
-import model.model.MediaList;
 
 //Adapter for MediaItems Recyclerview used only to display and click into. No selection or delete...
 public class MediaItemDisplayAdapter extends RecyclerView.Adapter<MediaItemDisplayAdapter.MediaItemViewHolder> {
@@ -46,11 +38,11 @@ public class MediaItemDisplayAdapter extends RecyclerView.Adapter<MediaItemDispl
 
         public MediaItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemTitle = itemView.findViewById(R.id.item_title);
-            itemRating = itemView.findViewById(R.id.item_rating);
-            itemImage = itemView.findViewById(R.id.item_image);
-            itemEpisodes = itemView.findViewById(R.id.item_episodes);
-            layout = itemView.findViewById(R.id.item_layout);
+            itemTitle = itemView.findViewById(R.id.media_card_dis_title);
+            itemRating = itemView.findViewById(R.id.media_card_dis_rating);
+            itemImage = itemView.findViewById(R.id.media_card_dis_image);
+            itemEpisodes = itemView.findViewById(R.id.media_card_dis_episodes);
+            layout = itemView.findViewById(R.id.media_card_dis_layout);
         }
     }
 

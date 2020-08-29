@@ -2,15 +2,11 @@ package com.example.mediatracker20.ui.items;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.selection.OnDragInitiatedListener;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
@@ -37,7 +33,6 @@ import com.example.mediatracker20.adapters.MediaItemAdapter;
 import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderItems;
 import com.example.mediatracker20.listselectors.ListItemLookup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -76,7 +71,7 @@ public class ItemListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.item_list_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_media, container, false);
         listName = getArguments().getString("LIST_NAME");
         listManager = ListManager.getInstance();
         itemManager = ItemManager.getInstance();
@@ -93,7 +88,7 @@ public class ItemListFragment extends Fragment {
     }
 
     private void initializeSearchView() {
-        searchView = rootView.findViewById(R.id.item_search);
+        searchView = rootView.findViewById(R.id.media_frag_search);
         searchView.setQueryHint("Search");
         searchView.onActionViewExpanded();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -113,7 +108,7 @@ public class ItemListFragment extends Fragment {
 
 //    //initialize list of cardViews to show all lists
     private void initializeRecyclerView() {
-        recyclerView = rootView.findViewById(R.id.card_display);
+        recyclerView = rootView.findViewById(R.id.media_frag_recyc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         try {
             chosenList = listManager.getMediaListByName(listName);
@@ -127,7 +122,7 @@ public class ItemListFragment extends Fragment {
 //
     //initialize spinner for different sorting methods
     private void initializeSpinner() {
-        spinner = rootView.findViewById(R.id.sort_choice);
+        spinner = rootView.findViewById(R.id.media_frag_sort);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.item_spinner_array, R.layout.spinner_item_text);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

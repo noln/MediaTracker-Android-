@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/meida_card_dis_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -9,48 +10,48 @@
     app:cardMaxElevation="2dp">
 
     <RelativeLayout
-        android:id="@+id/item_layout"
+        android:id="@+id/media_card_dis_layout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/card_press_selector"
         android:gravity="start|center_vertical">
 
         <TextView
-            android:id="@+id/item_episodes"
+            android:id="@+id/media_card_dis_episodes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="40dp"
             android:layout_marginBottom="40dp"
-            android:layout_toEndOf="@+id/item_image"
+            android:layout_toEndOf="@+id/media_card_dis_image"
             android:text="@string/item_episodes"
             android:textColor="@android:color/secondary_text_dark_nodisable"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/item_rating"
+            android:id="@+id/media_card_dis_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="157dp"
+            android:layout_marginStart="40dp"
             android:layout_marginBottom="40dp"
-            android:layout_toEndOf="@+id/item_image"
+            android:layout_toEndOf="@+id/media_card_dis_episodes"
             android:text="@string/item_rating"
             android:textColor="@android:color/secondary_text_dark_nodisable"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/item_title"
+            android:id="@+id/media_card_dis_title"
             android:layout_width="233dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@+id/item_image"
+            android:layout_toEndOf="@+id/media_card_dis_image"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/item_title"
@@ -59,7 +60,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/item_image"
+            android:id="@+id/media_card_dis_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

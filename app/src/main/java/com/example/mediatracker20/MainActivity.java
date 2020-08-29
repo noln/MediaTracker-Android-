@@ -1,6 +1,5 @@
 package com.example.mediatracker20;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        View f = findViewById(R.id.home_fragment_content);
+        View f = findViewById(R.id.list_fragment_layout);
         if (f != null && f.getTag() == getString(R.string.home_fragment_tag)) {
             finishAffinity();
         } else {

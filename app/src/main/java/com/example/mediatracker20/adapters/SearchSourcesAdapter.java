@@ -1,19 +1,14 @@
 package com.example.mediatracker20.adapters;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
@@ -79,8 +74,8 @@ public class SearchSourcesAdapter extends RecyclerView.Adapter<SearchSourcesAdap
 
         public SearchSourcesViewHolder(@NonNull View itemView) {
             super(itemView);
-            sourceTitle = itemView.findViewById(R.id.textView2);
-            cardLayout = itemView.findViewById(R.id.card_layout);
+            sourceTitle = itemView.findViewById(R.id.media_source_title);
+            cardLayout = itemView.findViewById(R.id.media_source_layout);
         }
     }
 }

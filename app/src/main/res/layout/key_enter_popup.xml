@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/key_enter_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/key_enter_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foregroundGravity="center"
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/key_prompt"
+            android:id="@+id/key_enter_prompt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -27,7 +28,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/api_key"
+            android:id="@+id/key_enter_api"
             style="@style/cursorColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             android:paddingTop="20dp" />
 
         <Button
-            android:id="@+id/confirm_button"
+            android:id="@+id/key_enter_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/confirm_button" />

@@ -2,19 +2,14 @@ package com.example.mediatracker20.adapters;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -28,7 +23,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.exceptions.ItemNotFoundException;
 import model.model.ItemManager;
 import model.model.ListManager;
 import model.model.MediaItem;
@@ -57,12 +51,12 @@ public class MediaItemAdapter extends RecyclerView.Adapter<MediaItemAdapter.Medi
 
         public MediaItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemTitle = itemView.findViewById(R.id.item_title);
-            itemRating = itemView.findViewById(R.id.item_rating);
-            itemStatus = itemView.findViewById(R.id.item_status);
-            itemImage = itemView.findViewById(R.id.item_image);
-            itemEpisodes = itemView.findViewById(R.id.item_episodes);
-            layout = itemView.findViewById(R.id.item_layout);
+            itemTitle = itemView.findViewById(R.id.media_card_title);
+            itemRating = itemView.findViewById(R.id.media_card_rating);
+            itemStatus = itemView.findViewById(R.id.media_card_status);
+            itemImage = itemView.findViewById(R.id.media_card_image);
+            itemEpisodes = itemView.findViewById(R.id.media_card_episodes);
+            layout = itemView.findViewById(R.id.media_card_layout);
         }
 
         public ItemDetailsLookup.ItemDetails getItemDetails() {

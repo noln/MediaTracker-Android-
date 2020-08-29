@@ -10,13 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
@@ -42,7 +39,7 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
         setHasOptionsMenu(true);
-        recyclerView = root.findViewById(R.id.all_sources);
+        recyclerView = root.findViewById(R.id.search_frag_recyc);
         createSources();
         initializeRecyclerView(recyclerView);
         return root;
@@ -59,8 +56,8 @@ public class SearchFragment extends Fragment {
         if (item.getItemId() == R.id.set_key) {
             setKeyDialog = new Dialog(getContext());
             setKeyDialog.setContentView(R.layout.key_enter_popup);
-            EditText key = setKeyDialog.findViewById(R.id.api_key);
-            Button button = setKeyDialog.findViewById(R.id.confirm_button);
+            EditText key = setKeyDialog.findViewById(R.id.key_enter_api);
+            Button button = setKeyDialog.findViewById(R.id.key_enter_confirm);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
