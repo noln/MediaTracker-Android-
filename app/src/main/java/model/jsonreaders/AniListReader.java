@@ -34,8 +34,8 @@ public class AniListReader implements AnimeReader{
             m.setItemInfo("ImageLink", obj.getJSONObject("coverImage").getString("large"));
             m.setItemInfo("Type", "ANILIST");
             m.setItemInfo("Episodes", obj.getString("episodes") == "null" ? "??" : obj.getString("episodes"));
-            m.setItemInfo("Plot", obj.getString("description"));
-            //m.setItemInfo("UserRating", "");
+            m.setItemInfo("Plot", obj.getString("description").replaceAll("<.*>", ""));
+            m.setItemInfo("Format", obj.getString("format"));
             mediaItems.add(m);
         }
         return mediaItems;

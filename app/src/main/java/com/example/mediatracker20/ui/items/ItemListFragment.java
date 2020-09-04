@@ -1,5 +1,6 @@
 package com.example.mediatracker20.ui.items;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -73,11 +74,13 @@ public class ItemListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_media, container, false);
         listName = getArguments().getString("LIST_NAME");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(listName);
         listManager = ListManager.getInstance();
         itemManager = ItemManager.getInstance();
         initializeRecyclerView();
         initializeSearchView();
         initializeSpinner();
+        initializeSelectionTracker();
         return rootView;
     }
 
@@ -148,15 +151,8 @@ public class ItemListFragment extends Fragment {
                 new KeyProviderItems(1, allItems),
                 new ListItemLookup(recyclerView),
                 StorageStrategy.createLongStorage()
-        )
-
-                .withOnDragInitiatedListener(new OnDragInitiatedListener() {
-                    @Override
-                    public boolean onDragInitiated(@NonNull MotionEvent e) {
-                        Log.d("drag", "onDragInitiated");
-                        return true;
-                    }
-                }).build();
+        ).build();
+        Log.d("tracker", "built");
         mediaItemAdapter.setSelectionTracker(selectionTracker);
         selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
             @Override

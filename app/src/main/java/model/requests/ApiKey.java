@@ -9,20 +9,9 @@ import java.io.IOException;
 
 public class ApiKey {
 
-    private static String key;
+    private static String key = "d49fc8d6eamsh5d3ae1a2f2143fbp1ebd4cjsn9217e6bdb490";
 
-    public static String getKey(Context context) {
-        if (key == null) {
-            try {
-                FileReader fileReader = new FileReader( context.getFilesDir().getPath() + "/key.txt");
-                BufferedReader br = new BufferedReader(fileReader);
-                key = br.readLine();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public static String getKey() {
         return key;
     }
 

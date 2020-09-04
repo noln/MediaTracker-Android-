@@ -19,32 +19,34 @@ public class MyAnimeList implements AnimeRequest{
 
     }
 
-    public String malSearchAnimeTitle(String query, Context context) throws IOException {
-        return SearchData.searchTitle(query, MAL_ANIME_SEARCH_URL, MAL_RAPID_HOST_URL, context);
+    public String malSearchAnimeTitle(String query) throws IOException {
+        return SearchData.searchTitle(query, MAL_ANIME_SEARCH_URL, MAL_RAPID_HOST_URL);
     }
 
-    public String malSearchMangaTitle(String query, Context context) throws IOException {
-        return SearchData.searchTitle(query, MAL_MANGA_SEARCH_URL, MAL_RAPID_HOST_URL, context);
+    public String malSearchMangaTitle(String query) throws IOException {
+        return SearchData.searchTitle(query, MAL_MANGA_SEARCH_URL, MAL_RAPID_HOST_URL);
     }
 
-    public String searchTop(String query, Context context) throws IOException {
-        Response response = SearchData.responseBuilder(MAL_Top_URL, query, MAL_RAPID_HOST_URL, context);
-        return response.body().string();
-    }
-
-    @Override
-    public String search(String query, Context context) throws IOException {
-        return SearchData.searchTitle(query, MAL_ANIME_SEARCH_URL, MAL_RAPID_HOST_URL, context);
+    public String searchTop(String query) throws IOException {
+        Response response = SearchData.responseBuilder(MAL_Top_URL, query, MAL_RAPID_HOST_URL);
+        String responseBody = response.body().string();
+        response.body().close();
+        return responseBody;
     }
 
     @Override
-    public String getRecommended(Context context) throws IOException {
-       return searchTop(SEARCH_RECOMMEND, context);
+    public String search(String query) throws IOException {
+        return SearchData.searchTitle(query, MAL_ANIME_SEARCH_URL, MAL_RAPID_HOST_URL);
     }
 
     @Override
-    public String getTrending(Context context) throws IOException {
-        return searchTop(SEARCH_TRENDING, context);
+    public String getRecommended() throws IOException {
+       return searchTop(SEARCH_RECOMMEND);
+    }
+
+    @Override
+    public String getTrending() throws IOException {
+        return searchTop(SEARCH_TRENDING);
     }
 
 }

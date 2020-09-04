@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="status_spinner_array">
+        <item>N/A</item>
+        <item>To Watch</item>
+        <item>In Progress</item>
+        <item>Finished</item>
+        <item>Favorite</item>
+    </string-array>
+</resources>

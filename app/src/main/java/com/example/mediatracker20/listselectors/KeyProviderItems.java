@@ -22,11 +22,11 @@ public class KeyProviderItems extends ItemKeyProvider {
     @Nullable
     @Override
     public Object getKey(int position) {
-        return null;
+        return mediaItems.get(position);
     }
 
     @Override
     public int getPosition(@NonNull Object key) {
-        return 0;
+        return mediaItems.indexOf(key);
     }
 }

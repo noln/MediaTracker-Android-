@@ -27,31 +27,33 @@ public class SearchData {
     private static final String RAPID_HOST_KEY = "x-rapidapi-key";
 
 
-    public static String searchTitle(String query, String searchUrl, String hostUrl, Context context) throws IOException {
+    public static String searchTitle(String query, String searchUrl, String hostUrl) throws IOException {
         String processedQuery = URLEncoder.encode(query, String.valueOf(StandardCharsets.UTF_8));
-        Response response = responseBuilder(searchUrl, processedQuery, hostUrl, context);
-        return response.body().string();
+        Response response = responseBuilder(searchUrl, processedQuery, hostUrl);
+        String responseBody = response.body().string();
+        response.body().close();
+        return responseBody;
     }
 
-    public static Response responseBuilder(String url, String processedQuery, String apiURL, Context context) throws IOException {
+    public static Response responseBuilder(String url, String processedQuery, String apiURL) throws IOException {
         Request request = new Request.Builder()
                 .url(url + processedQuery)
                 .get()
                 .addHeader(RAPID_HOST_URL, apiURL)
-                .addHeader(RAPID_HOST_KEY, ApiKey.getKey(context))
+                .addHeader(RAPID_HOST_KEY, ApiKey.getKey())
                 .build();
         Response response = client.newCall(request).execute();
         return  response;
     }
 
-    public static Response responseBuilderQ(String url, String query, String header, Context context) throws IOException {
+    public static Response responseBuilderQ(String url, String query, String header) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(query, mediaType);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .addHeader(RAPID_HOST_URL, header)
-                .addHeader(RAPID_HOST_KEY, ApiKey.getKey(context))
+                .addHeader(RAPID_HOST_KEY, ApiKey.getKey())
                 .addHeader("content-type", "application/json")
                 .addHeader("accept", "application/json")
                 .build();

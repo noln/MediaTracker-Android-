@@ -69,7 +69,7 @@ public class AnimeSearchDisplay extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                result = animeReader.readSearch(animeRequest.search(strings[0], getContext()), 50);
+                result = animeReader.readSearch(animeRequest.search(strings[0]), 50);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,8 +79,10 @@ public class AnimeSearchDisplay extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            mediaListAdapter.addList(result);
-            mediaListAdapter.notifyDataSetChanged();
+            if(result != null &&!result.isEmpty()) {
+                mediaListAdapter.addList(result);
+                mediaListAdapter.notifyDataSetChanged();
+            }
         }
     }
 }

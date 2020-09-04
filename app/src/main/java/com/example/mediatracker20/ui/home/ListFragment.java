@@ -30,6 +30,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
+
+import model.model.ItemManager;
+import model.model.TagManager;
+import model.persistence.ReaderLoader;
 import model.persistence.Saver;
 import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderLists;
@@ -57,6 +61,8 @@ public class ListFragment extends Fragment {
     private View rootView; //item in the views
     private List<MediaList> allLists;
     private ListManager listManager;
+    private ItemManager itemManager;
+    private TagManager tagManager;
     private MediaListAdapter mediaListAdapter;
     private RecyclerView recyclerView;
     private Spinner spinner;
@@ -71,16 +77,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        listManager = ListManager.getInstance();
-        try {
-            processListData(Reader.readListFile(getContext().getFilesDir().getPath() + "/listFile.txt"), listManager);
-        } catch (KeyAlreadyExistsException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-}
         homeViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
         rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        listManager = ListManager.getInstance();
         initializeSearchView();
         initializeSpinner();
         initializeRecyclerView();
@@ -110,16 +109,6 @@ public class ListFragment extends Fragment {
         });
     }
 
-    //process data read from files
-    private static void processListData(ArrayList<MediaList> listRead, ListManager listColl) throws KeyAlreadyExistsException {
-        if (listRead != null) {
-            for (MediaList list: listRead) {
-                listColl.addNewList(list);
-            }
-        } else {
-            System.out.println("There are no lists");
-        }
-    }
 
     //initialize list of cardViews to show all lists
     private void initializeRecyclerView() {

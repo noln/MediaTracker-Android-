@@ -81,6 +81,6 @@ public class ItemManager implements SaveAble {
             JSONObject mediaListObject = item.save();
             arrayOfItems.put(mediaListObject);
         }
-        listFile.write(arrayOfItems.toString());
+        itemFile.write(arrayOfItems.toString());
     }
 }

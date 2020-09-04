@@ -66,10 +66,13 @@ public class Converter {
         newItem.setItemInfo("ImageLink", item.getImageLink());
         newItem.setItemInfo("WebsiteLink", item.getWebsiteLink());
         newItem.setItemInfo("Date", item.getDate());
-        newItem.setItemInfo("Episode", item.getEpisode());
+        newItem.setItemInfo("Episodes", item.getEpisode());
         newItem.setItemInfo("Id", item.getId());
         newItem.getMetaDataOfType("List").addAll(item.getMetaDataList());
         newItem.getMetaDataOfType("Tag").addAll(item.getMetaDataTag());
+        newItem.setItemInfo("Format", item.getFormat());
+        newItem.setItemInfo("UserReview", item.getUserReview());
+        newItem.setItemInfo("UserRating", item.getUserRating());
         return newItem;
     }
 

@@ -63,7 +63,7 @@ public class MediaItemAdapter extends RecyclerView.Adapter<MediaItemAdapter.Medi
             return new ListItemDetail(getAdapterPosition(), displayItems.get(getAdapterPosition()));
         }
 
-        public final void bind(MediaList list, boolean isActive) {
+        public final void bind(MediaItem list, boolean isActive) {
             layout.setActivated(isActive);
         }
     }
@@ -92,15 +92,26 @@ public class MediaItemAdapter extends RecyclerView.Adapter<MediaItemAdapter.Medi
         holder.itemStatus.setText("Status: " + item.getItemInfo("Status"));
         holder.itemTitle.setText(item.getItemInfo("Title"));
         holder.itemEpisodes.setText("Episodes: " + item.getItemInfo("Episodes"));
-        Picasso.get().load(item.getItemInfo("ImageLink")).resize(1000, 2000).into(holder.itemImage);
+        Picasso.get().load(item.getItemInfo("ImageLink")).into(holder.itemImage);
+        holder.bind(item, selectionTracker.isSelected(item));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("MEDIA_ITEM", item);
-                Navigation.findNavController(holder.itemView).navigate(actionId, bundle);
+                if(!selectionTracker.hasSelection()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("MEDIA_ITEM", item);
+                    bundle.putString("LIST_NAME", selectedList.getName());
+                    Navigation.findNavController(holder.itemView).navigate(actionId, bundle);
+                } else {
+                    if(selectionTracker.isSelected(item)) {
+                        selectionTracker.deselect(item);
+                    } else {
+                        selectionTracker.select(item);
+                    }
+                }
             }
         });
+
     }
 
     @Override

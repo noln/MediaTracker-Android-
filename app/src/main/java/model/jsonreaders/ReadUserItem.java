@@ -20,21 +20,10 @@ public class ReadUserItem {
     private String episode;
     private String id;
     private String userRating;
+    private String userReview;
+    private String format;
 
-    //This will actually never be instantiated
-    public ReadUserItem() {
-        metaDataList = new ArrayList<>();
-        metaDataTag = new ArrayList<>();
-        title = "testTitle";
-        type = "testType";
-        plot = "testPlot";
-        rating = "testUserRating";
-        status = "testStatus";
-        imageLink = "testImagelink";
-        websiteLink = "testWebsitelink";
-        date = "testDate";
-        episode = "testEpisode";
-    }
+    public ReadUserItem() {}
 
     public String getUserRating() {
         return userRating;
@@ -90,6 +79,22 @@ public class ReadUserItem {
 
     public ArrayList<MetaData> getMetaDataTag() {
         return metaDataTag;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getUserReview() {
+        return userReview;
+    }
+
+    public void setUserReview(String userReview) {
+        this.userReview = userReview;
     }
 
 }

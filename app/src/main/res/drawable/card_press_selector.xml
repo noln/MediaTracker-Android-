@@ -5,5 +5,6 @@
     <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/pressed_cardview" />
     <item android:state_focused="false" android:state_pressed="false" android:state_selected="true" android:drawable="@drawable/pressed_cardview" />
     <item android:state_activated="true" android:drawable="@drawable/pressed_cardview"/>
+    <item android:state_selected="true" android:drawable="@drawable/pressed_cardview"/>
     <item android:drawable="@drawable/normal_cardview" />
 </selector>

@@ -4,11 +4,12 @@ package model.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
 //represents information about a MediaItem
-public class MetaData {
+public class MetaData implements Serializable {
     private String date; //date added
     private String nameOfObject; //name of Object added
 

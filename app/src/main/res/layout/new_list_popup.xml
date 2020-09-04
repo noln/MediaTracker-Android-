@@ -32,7 +32,7 @@
 
         <EditText
             android:id="@+id/new_list_title"
-            style="@style/cursorColor"
+            style="@style/userInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autofillHints="@string/new_list_hint"

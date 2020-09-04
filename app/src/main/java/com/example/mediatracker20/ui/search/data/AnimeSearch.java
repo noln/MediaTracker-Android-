@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +29,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.mediatracker20.R;
 import com.example.mediatracker20.adapters.MediaItemDisplayAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -41,6 +41,7 @@ import java.util.List;
 import model.jsonreaders.AnimeReader;
 import model.model.MediaItem;
 import model.requests.AnimeRequest;
+import model.requests.SearchSaver;
 
 public class AnimeSearch extends Fragment {
 
@@ -86,8 +87,10 @@ public class AnimeSearch extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        if (isConnected()) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(sourceTitle);
+        if (SearchSaver.getInstance().getAnimeSearch(sourceTitle) != null) {
+            generateView(SearchSaver.getInstance().getAnimeSearch(sourceTitle));
+        } else if(isConnected()) {
             new MyTask().execute();
         } else {
             Toast toast = Toast.makeText(getContext(), R.string.no_connection, Toast.LENGTH_SHORT);
@@ -99,6 +102,16 @@ public class AnimeSearch extends Fragment {
         ConnectivityManager cm = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void generateView(Pair<List<MediaItem>, List<MediaItem>> items) {
+        pagerCardAdapter.addList(items.first);
+        pagerCardAdapter.notifyDataSetChanged();
+        createTopAiring(items.second);
+        tabLayout.setVisibility(View.VISIBLE);
+        viewPager2.setVisibility(View.VISIBLE);
+        recommendProgress.setVisibility(View.GONE);
+        trendingProgress.setVisibility(View.GONE);
     }
 
     @Override
@@ -138,8 +151,8 @@ public class AnimeSearch extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                randomItems = animeReader.readTop(animeRequest.getRecommended(getContext()), 5);
-                trendingItems = animeReader.readTop(animeRequest.getTrending(getContext()), 20);
+                randomItems = animeReader.readTop(animeRequest.getRecommended(), 5);
+                trendingItems = animeReader.readTop(animeRequest.getTrending(), 20);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -148,51 +161,60 @@ public class AnimeSearch extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (randomItems == null || randomItems.isEmpty()) {
-                TextView textView = new TextView(getContext());
-                textView.setGravity(Gravity.CENTER);
-                textView.setText("Failed to get information. Try later or another source");
-                recommendedLayout.addView(textView);
-            } else {
-                pagerCardAdapter.addList(randomItems);
-                pagerCardAdapter.notifyDataSetChanged();
-            } if (trendingItems == null || trendingItems.isEmpty()) {
-                TextView textView = new TextView(getContext());
-                textView.setGravity(Gravity.CENTER);
-                textView.setText("Failed to get information. Try later or another source");
-                trendingLayout.addView(textView);
-            } else {
-                createTopAiring();
-            }
-            tabLayout.setVisibility(View.VISIBLE);
-            viewPager2.setVisibility(View.VISIBLE);
-            recommendProgress.setVisibility(View.GONE);
-            trendingProgress.setVisibility(View.GONE);
-            super.onPostExecute(aVoid);
-        }
-
-        private void createTopAiring() {
-            for(MediaItem i: trendingItems) {
-                View c = LayoutInflater.from(getContext()).inflate(R.layout.media_item_display_card, null);
-                RelativeLayout layout = c.findViewById(R.id.media_card_dis_layout);
-                layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("MEDIA_ITEM", i);
-                    Navigation.findNavController(view).navigate(R.id.action_animeSearch_to_itemSumamry, bundle);
-                    }
-                });
-                TextView itemRating = c.findViewById(R.id.media_card_dis_rating);
-                TextView itemTitle = c.findViewById(R.id.media_card_dis_title);
-                TextView itemEpisodes = c.findViewById(R.id.media_card_dis_episodes);
-                ImageView itemImage = c.findViewById(R.id.media_card_dis_image);
-                itemRating.setText("Rating: " + i.getItemInfo("Rating"));
-                itemTitle.setText(i.getItemInfo("Title"));
-                itemEpisodes.setText("Episodes: " + i.getItemInfo("Episodes"));
-                Picasso.get().load(i.getItemInfo("ImageLink")).into(itemImage);
-                trendingLayout.addView(c);
+            try {
+                if (randomItems == null || randomItems.isEmpty()) {
+                    TextView textView = new TextView(getContext());
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setText("Failed to get information. Try later or another source");
+                    recommendedLayout.addView(textView);
+                } else {
+                    pagerCardAdapter.addList(randomItems);
+                    pagerCardAdapter.notifyDataSetChanged();
+                }
+                if (trendingItems == null || trendingItems.isEmpty()) {
+                    TextView textView = new TextView(getContext());
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setText("Failed to get information. Try later or another source");
+                    trendingLayout.addView(textView);
+                } else {
+                    createTopAiring(trendingItems);
+                }
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager2.setVisibility(View.VISIBLE);
+                recommendProgress.setVisibility(View.GONE);
+                trendingProgress.setVisibility(View.GONE);
+                if(trendingItems != null && !trendingItems.isEmpty() && !randomItems.isEmpty() && randomItems != null) {
+                    SearchSaver.getInstance().setAnimeSearch(sourceTitle, new Pair<>(randomItems, trendingItems));
+                }
+                super.onPostExecute(aVoid);
+            } catch (NullPointerException e){
+                return;
             }
         }
     }
+
+    private void createTopAiring(List<MediaItem> trendingItems) {
+        for(MediaItem i: trendingItems) {
+            View c = LayoutInflater.from(getContext()).inflate(R.layout.media_item_display_card, null);
+            RelativeLayout layout = c.findViewById(R.id.media_card_dis_layout);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("MEDIA_ITEM", i);
+                    Navigation.findNavController(view).navigate(R.id.action_animeSearch_to_itemSumamry, bundle);
+                }
+            });
+            TextView itemRating = c.findViewById(R.id.media_card_dis_rating);
+            TextView itemTitle = c.findViewById(R.id.media_card_dis_title);
+            TextView itemEpisodes = c.findViewById(R.id.media_card_dis_episodes);
+            ImageView itemImage = c.findViewById(R.id.media_card_dis_image);
+            itemRating.setText("Rating: " + i.getItemInfo("Rating"));
+            itemTitle.setText(i.getItemInfo("Title"));
+            itemEpisodes.setText("Episodes: " + i.getItemInfo("Episodes"));
+            Picasso.get().load(i.getItemInfo("ImageLink")).into(itemImage);
+            trendingLayout.addView(c);
+        }
+    }
+
 }

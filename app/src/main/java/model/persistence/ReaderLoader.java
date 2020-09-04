@@ -1,5 +1,7 @@
 package model.persistence;
 
+import android.content.Context;
+
 import org.json.JSONException;
 
 
@@ -22,33 +24,31 @@ import java.util.ArrayList;
 
 public class ReaderLoader {
 
-    private static final String LIST_FILE = "./data/listFile.json";
-    private static final String TAG_FILE = "./data/tagFile.json";
-    private static final String ITEM_FILE = "./data/userItemFile.json";
 
     // EFFECTS: save state of listColl to LISTS_FILE. Modeled after TellerApp
-    public static void saveProgram(ListManager listColl, TagManager tagManager, ItemManager itemManager) throws JSONException {
+    public static void saveProgram(ListManager listColl, TagManager tagManager, ItemManager itemManager, Context context) throws JSONException {
         try {
-            Writer writer = new Writer(new File(LIST_FILE), new File(TAG_FILE), new File(ITEM_FILE));
+            //TagManager.getInstance().removeInactiveTags();
+            Writer writer = new Writer(new File(context.getFilesDir(), "listFile.txt"),
+                    new File(context.getFilesDir(), "tagFile.txt"), new File(context.getFilesDir(), "itemFile.txt"));
             writer.write(listColl);
             writer.write(tagManager);
             writer.write(itemManager);
             writer.close();
-            System.out.println("All lists are saved to file " + LIST_FILE);
         } catch (IOException e) {
-            System.out.println("Unable to save accounts to " + LIST_FILE);
+            System.out.println("Unable to save");
             e.printStackTrace();
         }
     }
 
     // MODIFIES: this
     // EFFECTS: load info from LIST_FILE. Catch NullPointerException when there are no info in LIST_FILE
-    public static void loadInfo(ListManager listColl, TagManager tagColl, ItemManager itemColl) throws IOException, KeyAlreadyExistsException {
-        ArrayList<ReadUserItem> userItemRead = Reader.readItemFile(ITEM_FILE);
-        ArrayList<Tag> tagRead = Reader.readTagFile(TAG_FILE);
-        ArrayList<MediaList> listRead = Reader.readListFile(LIST_FILE);
-        processTagData(tagRead, tagColl);
+    public static void loadInfo(ListManager listColl, TagManager tagColl, ItemManager itemColl, Context context) throws IOException, KeyAlreadyExistsException {
+        ArrayList<ReadUserItem> userItemRead = Reader.readItemFile(context.getFilesDir().getPath() + "/itemFile.txt");
+        ArrayList<Tag> tagRead = Reader.readTagFile(context.getFilesDir().getPath() + "/tagFile.txt");
+        ArrayList<MediaList> listRead = Reader.readListFile(context.getFilesDir().getPath() + "/listFile.txt");
         processListData(listRead, listColl);
+        processTagData(tagRead, tagColl);
         processUserItemData(userItemRead, listColl, tagColl, itemColl);
     }
 
@@ -120,7 +120,7 @@ public class ReaderLoader {
     private static void loadToTags(ArrayList<MediaItem> mediaItem, TagManager tagManager) {
         for (Tag tag: tagManager.getAllActiveTags()) {
             for (MediaItem item: mediaItem) {
-                if (item.containMetaDataOf("List", tag.getTagName())) {
+                if (item.containMetaDataOf("Tag", tag.getTagName())) {
                     try {
                         tagManager.getListOfMediaWithTag(tag).add(item);
                     } catch (ItemNotFoundException e) {

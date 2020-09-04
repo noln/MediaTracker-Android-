@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +24,6 @@ import java.util.stream.Collectors;
 
 // A reader that can read list data from file. Modeled after Teller App
 public class Reader {
-
-    private Reader() {}
 
     // EFFECTS: returns a list of ReadUserItem read from file;
     // throws IOException if an exception is raised when opening / reading from file, create file if file not found
@@ -52,7 +51,7 @@ public class Reader {
         ArrayList<Tag> info;
         try {
             FileReader fileReader = new FileReader(filePath);
-            BufferedReader br = new BufferedReader(fileReader);
+            JsonReader br = new JsonReader(fileReader);
             Gson gson = new Gson();
             Type mapType = new TypeToken<ArrayList<Tag>>(){}.getType();
             info = gson.fromJson(br, mapType);
@@ -69,7 +68,7 @@ public class Reader {
         ArrayList<MediaList> info;
         try {
             FileReader fileReader = new FileReader(filePath);
-            BufferedReader br = new BufferedReader(fileReader);
+            JsonReader br = new JsonReader(fileReader);
             Gson gson = new Gson();
             Type mapType = new TypeToken<ArrayList<MediaList>>(){}.getType();
             info = gson.fromJson(br, mapType);

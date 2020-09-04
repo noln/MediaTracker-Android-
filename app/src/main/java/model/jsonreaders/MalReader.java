@@ -22,17 +22,18 @@ public class MalReader implements AnimeReader{
         ArrayList<MediaItem> mediaItems = new ArrayList<>();
         for(int i = 0; i < results.length(); i++) {
             JSONObject obj = results.getJSONObject(i);
-            MediaItem m = new MediaItem(obj.getString("title"));
-            m.setItemInfo("Rating", obj.getString("score"));
-            m.setItemInfo("Plot", obj.getString("synopsis"));
-            m.setItemInfo("WebsiteLink", obj.getString("url"));
-            m.setItemInfo("Date", obj.getString("start_date"));
-            m.setItemInfo("Id", obj.getString("mal_id"));
-            m.setItemInfo("ImageLink", obj.getString("image_url"));
-            m.setItemInfo("Type", "MAL");
-            m.setItemInfo("Episodes", obj.getString("episodes") == "null" ? "??" : obj.getString("episodes"));
-            //m.setItemInfo("UserRating", "");
-            mediaItems.add(m);
+            if(!obj.getString("rated").equals("Rx")) {
+                MediaItem m = new MediaItem(obj.getString("title"));
+                m.setItemInfo("Rating", obj.getString("score"));
+                m.setItemInfo("Plot", "No Summary for MAL, please go to their website~ Maybe in the future QAQ");
+                m.setItemInfo("WebsiteLink", obj.getString("url"));
+                m.setItemInfo("Date", obj.getString("start_date"));
+                m.setItemInfo("Id", obj.getString("mal_id"));
+                m.setItemInfo("ImageLink", obj.getString("image_url"));
+                m.setItemInfo("Type", "MAL");
+                m.setItemInfo("Episodes", obj.getString("episodes") == "null" ? "??" : obj.getString("episodes"));
+                mediaItems.add(m);
+            }
         }
         return mediaItems;
     }
@@ -47,15 +48,15 @@ public class MalReader implements AnimeReader{
             m.setItemInfo("Rating", obj.getString("score"));
             m.setItemInfo("WebsiteLink", obj.getString("url"));
             m.setItemInfo("Date", obj.getString("start_date"));
+            m.setItemInfo("Plot", "No Summary for MAL, please go to their website~ Maybe in the future QAQ");
             m.setItemInfo("Id", obj.getString("mal_id"));
             m.setItemInfo("ImageLink", obj.getString("image_url"));
             m.setItemInfo("Type", "MAL");
             m.setItemInfo("Episodes", obj.getString("episodes") == "null" ? "??" : obj.getString("episodes"));
-            //m.setItemInfo("UserRating", "");
+            m.setItemInfo("Format", obj.getString("type"));
             mediaItems.add(m);
         }
         return mediaItems;
     }
-
 
 }

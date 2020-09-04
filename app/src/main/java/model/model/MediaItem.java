@@ -39,6 +39,8 @@ public class MediaItem implements Serializable {
         itemDetails.put("Episodes", "");
         itemDetails.put("Id", "");
         itemDetails.put("UserRating", "");
+        itemDetails.put("UserReview", "");
+        itemDetails.put("Format", "");
     }
 
     // MODIFIES: this
@@ -157,19 +159,17 @@ public class MediaItem implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        MediaItem mediaItem = (MediaItem) o;
-        return itemDetails.equals(mediaItem.itemDetails);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MediaItem item = (MediaItem) o;
+        return this.getItemInfo("Title").equals(item.getItemInfo("Title"))
+                && this.getItemInfo("Id").equals(item.getItemInfo("Id"))
+                && this.getItemInfo("Type").equals(item.getItemInfo("Type"));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemDetails);
+        return Objects.hash(itemDetails.get("Title"), itemDetails.get("Id"), itemDetails.get("Type"));
     }
 
     // EFFECTS: save the information of the object into json
@@ -183,9 +183,11 @@ public class MediaItem implements Serializable {
         mediaObject.put("date", itemDetails.get("Date"));
         mediaObject.put("websiteLink", itemDetails.get("WebsiteLink"));
         mediaObject.put("type", itemDetails.get("Type"));
-        mediaObject.put("episode", itemDetails.get("Episode"));
+        mediaObject.put("episode", itemDetails.get("Episodes"));
         mediaObject.put("id", itemDetails.get("Id"));
         mediaObject.put("userRating", itemDetails.get("UserRating"));
+        mediaObject.put("userReview", itemDetails.get("UserReview"));
+        mediaObject.put("format", itemDetails.get("Format"));
         JSONArray listMetaData = new JSONArray();
         JSONArray tagMetaData = new JSONArray();
         for (MetaData data: listData) {

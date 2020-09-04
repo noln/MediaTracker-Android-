@@ -85,6 +85,9 @@ public class TagManager implements SaveAble {
     public void tagItem(Tag tag, MediaItem mediaItem) throws ItemNotFoundException, DataExistAlreadyException {
         tagInList(tag);
         ArrayList<MediaItem> tagList = tagAndItem.get(tag);
+        if(tagList.contains(mediaItem)) {
+            throw new DataExistAlreadyException();
+        }
         tagList.add(mediaItem);
         mediaItem.updateData("Tag", tag.getTagName());
     }
@@ -108,6 +111,28 @@ public class TagManager implements SaveAble {
         return tagAndItem.get(tag);
     }
 
+    public boolean mediaIsTaggedBy(Tag tag, MediaItem mediaItem) {
+        return tagAndItem.get(tag).contains(mediaItem);
+    }
+
+    public void removeInactiveTags() {
+        Iterator it = tagAndItem.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if(((List<MediaItem>) pair.getValue()).isEmpty()) {
+                it.remove();
+            }
+        }
+    }
+
+    public Tag getTagByName(String name) throws ItemNotFoundException {
+        for(Tag t: tagAndItem.keySet()) {
+            if(t.getTagName().equals(name)) {
+                return t;
+            }
+        }
+        throw new ItemNotFoundException();
+    }
 
     @Override
     public void save(FileWriter listFile, FileWriter tagFile, FileWriter itemFile) throws JSONException, IOException {

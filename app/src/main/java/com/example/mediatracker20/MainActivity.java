@@ -13,6 +13,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import model.exceptions.KeyAlreadyExistsException;
+import model.model.ItemManager;
+import model.model.TagManager;
+import model.persistence.ReaderLoader;
 import model.persistence.Saver;
 import com.google.android.material.navigation.NavigationView;
 
@@ -30,17 +34,21 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private ListManager listManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listManager = ListManager.getInstance();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        try {
+            ReaderLoader.loadInfo(ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance(), this);
+        } catch (KeyAlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -73,18 +81,12 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (Saver.getInstance().isChanged()) {
             try {
-                File listFile = new File(this.getFilesDir(), "listFile.txt");
-                File tagFile = new File(this.getFilesDir(), "tagFile.txt");
-                File itemFile = new File(this.getFilesDir(), "itemFile.txt");
-                Writer writer = new Writer(listFile, tagFile, itemFile);
-                writer.write(ListManager.getInstance());
-                writer.close();
+                ReaderLoader.saveProgram(ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance(), this);
                 Saver.getInstance().saved();
-            } catch (IOException | JSONException e) {
+            } catch (JSONException e) {
                 Log.d("fail save", "save failed");
                 e.printStackTrace();
             }
-            ;
         }
     }
 

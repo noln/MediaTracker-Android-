@@ -118,14 +118,12 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
                     Navigation.findNavController(holder.itemView).navigate(R.id.action_nav_home_to_itemListFragment, bundle);
 
                 } else {
-                    MediaList mediaList = displayList.get(position);
-                    if(selectionTracker.isSelected(mediaList)) {
-                        selectionTracker.deselect(mediaList);
+                    if(selectionTracker.isSelected(list)) {
+                        selectionTracker.deselect(list);
                     } else {
-                        selectionTracker.select(mediaList);
+                        selectionTracker.select(list);
                     }
                 }
-                Log.d("clicked", Integer.toString(position));
             }
         });
     }
