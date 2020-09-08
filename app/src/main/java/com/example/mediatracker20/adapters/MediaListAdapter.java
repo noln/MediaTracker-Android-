@@ -1,7 +1,6 @@
 package com.example.mediatracker20.adapters;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +74,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
             displayList.addAll(allLists);
         } else {
             for (MediaList wp : allLists) {
-                if (wp.getName().toLowerCase().contains(charText)) {
+                if (wp.getListName().toLowerCase().contains(charText)) {
                     displayList.add(wp);
                 }
             }
@@ -87,6 +86,11 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
     public void syncLists() {
         allLists.clear();
         allLists.addAll(displayList);
+    }
+
+    public void addLists(List<MediaList> lists) {
+        allLists.addAll(lists);
+        displayList.addAll(lists);
     }
 
 
@@ -103,7 +107,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
     @Override
     public void onBindViewHolder(@NonNull MediaListViewHolder holder, int position) {
         MediaList list = displayList.get(position);
-        holder.listTitle.setText(list.getName());
+        holder.listTitle.setText(list.getListName());
         holder.listCreationDate.setText("Created: " + list.getDateCreated());
         int num = listManager.getListOfMedia(list).size();
         holder.numberOfItems.setText("Items: " + num);
@@ -114,7 +118,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
             public void onClick(View v) {
                 if(!selectionTracker.hasSelection()) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("LIST_NAME", list.getName());
+                    bundle.putString("LIST_NAME", list.getListName());
                     Navigation.findNavController(holder.itemView).navigate(R.id.action_nav_home_to_itemListFragment, bundle);
 
                 } else {

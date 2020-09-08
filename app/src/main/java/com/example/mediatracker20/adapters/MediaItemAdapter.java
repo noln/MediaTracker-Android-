@@ -100,7 +100,7 @@ public class MediaItemAdapter extends RecyclerView.Adapter<MediaItemAdapter.Medi
                 if(!selectionTracker.hasSelection()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("MEDIA_ITEM", item);
-                    bundle.putString("LIST_NAME", selectedList.getName());
+                    bundle.putString("LIST_NAME", selectedList.getListName());
                     Navigation.findNavController(holder.itemView).navigate(actionId, bundle);
                 } else {
                     if(selectionTracker.isSelected(item)) {

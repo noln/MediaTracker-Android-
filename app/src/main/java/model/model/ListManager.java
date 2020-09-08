@@ -26,6 +26,7 @@ public class ListManager implements SaveAble {
     private Map<MediaList, ArrayList<MediaItem>> listAndItems;
     private static ListManager instance = null;
 
+
      // MODIFIES: this
      // EFFECTS: initializes ListManager with an empty data lists
     private ListManager() {
@@ -51,7 +52,7 @@ public class ListManager implements SaveAble {
     public MediaList getMediaListByName(String name) throws ItemNotFoundException {
         Set<MediaList> keySet = listAndItems.keySet();
         for (MediaList key: keySet) {
-            if (key.getName().equals(name)) {
+            if (key.getListName().equals(name)) {
                 return key;
             }
         }
@@ -84,7 +85,7 @@ public class ListManager implements SaveAble {
             throw new KeyAlreadyExistsException();
         } else {
             list.add(mediaItem);
-            mediaItem.updateData("List", mediaList.getName());
+            mediaItem.updateData("List", mediaList.getListName());
             ItemManager.getInstance().addItem(mediaItem);
         }
     }
@@ -104,7 +105,7 @@ public class ListManager implements SaveAble {
         listAlreadyExists(mediaList);
         ArrayList<MediaItem> list = listAndItems.get(mediaList);
         list.remove(mediaItem);
-        mediaItem.removeData("List", mediaList.getName());
+        mediaItem.removeData("List", mediaList.getListName());
         ItemManager.getInstance().removeInactiveItem(mediaItem);
     }
 
@@ -131,7 +132,7 @@ public class ListManager implements SaveAble {
         listAlreadyExists(mediaList);
         ArrayList<MediaItem> itemsInList = listAndItems.get(mediaList);
         for (MediaItem item: itemsInList) {
-            item.removeData("List", mediaList.getName());
+            item.removeData("List", mediaList.getListName());
             ItemManager.getInstance().removeInactiveItem(item);
         }
         listAndItems.remove(mediaList);
@@ -146,6 +147,10 @@ public class ListManager implements SaveAble {
     // EFFECTS: return set of all keys to lists
     public Set<MediaList> allActiveLists() {
         return listAndItems.keySet();
+    }
+
+    public ArrayList<MediaList> getAllLists() {
+        return new ArrayList<>(this.listAndItems.keySet());
     }
 
     @Override

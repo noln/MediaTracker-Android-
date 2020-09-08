@@ -16,7 +16,7 @@ public class Sorter {
     private static Comparator<MediaItem> sortByRating = Comparator.comparing((MediaItem o) -> o.getItemInfo("Rating"));
     private static Comparator<MediaList> sortByDateAddedL = Comparator.comparing(MediaList::getDateCreated);
     private static Comparator<MediaList> sortByFrequencyL = Comparator.comparing(MediaList::getFrequency);
-    private static Comparator<MediaList> sortByNameL = Comparator.comparing((MediaList o) -> o.getName().toString().toLowerCase());
+    private static Comparator<MediaList> sortByNameL = Comparator.comparing((MediaList o) -> o.getListName().toString().toLowerCase());
     private static Comparator<MediaList>  sortByLatestAccessedL = Comparator.comparing(MediaList::getLatestAccessDate);
 
 

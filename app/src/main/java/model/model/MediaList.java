@@ -11,10 +11,14 @@ import java.util.Objects;
 //List of MediaItem with a name
 public class MediaList {
 
+
     private String listName; //Name of the list
     private String dateCreated;
     private int frequency;
     private String latestAccessDate;
+
+    public MediaList() {
+    }
 
     public MediaList(String name) throws EmptyStringException {
         if (name.trim().isEmpty()) {
@@ -27,7 +31,7 @@ public class MediaList {
         latestAccessDate = this.dateCreated;
     }
 
-    public String getName() {
+    public String getListName() {
         return this.listName;
     }
 
@@ -97,6 +101,6 @@ public class MediaList {
 
     @Override
     public String toString() {
-        return getName();
+        return getListName();
     }
 }

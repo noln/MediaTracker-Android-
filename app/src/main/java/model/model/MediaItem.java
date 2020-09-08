@@ -14,10 +14,14 @@ import model.exceptions.ItemNotFoundException;
 
 // Represents a abstract media(Movies, tv show...) with different information
 public class MediaItem implements Serializable {
+
     protected Map<String, String> itemDetails;
     protected ArrayList<MetaData> listData;
     protected ArrayList<MetaData> tagData;
 
+    public MediaItem() {
+
+    }
 
     // MODIFIES: this
     // EFFECTS: initialize different types of metaData;
@@ -208,5 +212,17 @@ public class MediaItem implements Serializable {
     @Override
     public String toString() {
         return itemDetails.get("Title");
+    }
+
+    public Map<String, String> getItemDetails() {
+        return itemDetails;
+    }
+
+    public ArrayList<MetaData> getListData() {
+        return listData;
+    }
+
+    public ArrayList<MetaData> getTagData() {
+        return tagData;
     }
 }

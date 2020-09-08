@@ -1,7 +1,7 @@
 package com.example.mediatracker20;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,25 +14,36 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import model.exceptions.KeyAlreadyExistsException;
+import model.jsonreaders.ItemManagerDocument;
+import model.jsonreaders.ListManagerDocument;
+import model.jsonreaders.TagManagerDocument;
 import model.model.ItemManager;
+import model.model.MediaItem;
+import model.model.MediaList;
+import model.model.Tag;
 import model.model.TagManager;
 import model.persistence.ReaderLoader;
 import model.persistence.Saver;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-
-import org.json.JSONException;
-
-import java.io.File;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 import model.model.ListManager;
-import model.persistence.Writer;
 
 //Main activity to navigate from lists to items
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +53,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        try {
-            ReaderLoader.loadInfo(ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance(), this);
-        } catch (KeyAlreadyExistsException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -78,16 +82,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (Saver.getInstance().isChanged()) {
-            try {
-                ReaderLoader.saveProgram(ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance(), this);
-                Saver.getInstance().saved();
-            } catch (JSONException e) {
-                Log.d("fail save", "save failed");
-                e.printStackTrace();
-            }
+            db = FirebaseFirestore.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            Map<String, Object> data = new HashMap<>();
+            data.put("itemManager", ItemManager.getInstance().getAllMediaItems());
+            data.put("listManager", ListManager.getInstance().getAllLists());
+            data.put("tagManager", TagManager.getInstance().getAllTags());
+            db.collection("users").document(auth.getUid()).set(data);
         }
+        super.onStop();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.mediatracker20;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,6 +16,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -21,16 +25,35 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firestore.v1.WriteResult;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
+import model.jsonreaders.ItemManagerDocument;
+import model.jsonreaders.ListManagerDocument;
+import model.jsonreaders.TagManagerDocument;
+import model.model.ItemManager;
+import model.model.ListManager;
+import model.model.MediaItem;
+import model.model.MediaList;
+import model.model.Tag;
+import model.model.TagManager;
+import model.persistence.ReaderLoader;
+
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
-
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -47,9 +70,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
+        initializeDB();
     }
 
-
+    private void initializeDB() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+        db.setFirestoreSettings(settings);
+    }
 
     @Override
     protected void onStart() {
@@ -62,10 +93,32 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updateUI(FirebaseUser account) {
         if(account != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            DocumentReference docRef = db.collection("users").document(auth.getUid());
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    ItemManagerDocument imd = documentSnapshot.toObject(ItemManagerDocument.class);
+                    ListManagerDocument lmd = documentSnapshot.toObject(ListManagerDocument.class);
+                    TagManagerDocument tmd = documentSnapshot.toObject(TagManagerDocument.class);
+                    List<MediaItem> userItemRead =  imd == null ? null : imd.itemManager;
+                    List<Tag> tagRead = tmd == null ? null : tmd.tagManager;
+                    List<MediaList> listRead = lmd == null ? null : lmd.listManager;
+                    try {
+                        ReaderLoader.processListData(listRead, ListManager.getInstance());
+                        ReaderLoader.processTagData(tagRead, TagManager.getInstance());
+                        ReaderLoader.processUserItemData(userItemRead, ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance());
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,7 +142,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.sign_in_button:
                 signIn();
                 break;
-            // ...
         }
     }
 
@@ -101,7 +153,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void signOut() {
         // Firebase sign out
         mAuth.signOut();
-
         // Google sign out
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 new OnCompleteListener<Void>() {
@@ -181,4 +232,5 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
+
 }

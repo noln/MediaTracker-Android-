@@ -68,6 +68,10 @@ public class TagManager implements SaveAble {
         return this.tagAndItem.keySet();
     }
 
+    public ArrayList<Tag> getAllTags() {
+        return new ArrayList<>(this.tagAndItem.keySet());
+    }
+
     // MODIFIES: this
     // EFFECTS: delete a tag
     public void deleteTag(Tag tag) throws ItemNotFoundException {

@@ -1,9 +1,5 @@
 package model.Organize;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 
 import model.model.MediaItem;
 import model.model.MediaList;
@@ -44,7 +40,7 @@ public class SearchManager {
     }
 
     public List<MediaList> searchByNameL(List<MediaList> list, String name) {
-        Predicate<MediaList> predicate = item -> item.getName().contains(name);
+        Predicate<MediaList> predicate = item -> item.getListName().contains(name);
         return list.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());

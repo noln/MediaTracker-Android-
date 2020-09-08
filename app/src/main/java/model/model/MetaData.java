@@ -13,6 +13,10 @@ public class MetaData implements Serializable {
     private String date; //date added
     private String nameOfObject; //name of Object added
 
+    public MetaData() {
+
+    }
+
     public MetaData(String nameOfObject) {
         Calendar calendar = Calendar.getInstance();
         this.date = calendar.getTime().toString();

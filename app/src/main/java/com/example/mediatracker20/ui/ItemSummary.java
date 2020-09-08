@@ -107,7 +107,7 @@ public class ItemSummary extends Fragment {
         ArrayAdapter<String> ratingAdapter = new ArrayAdapter<String>(getContext(), R.layout.card_spinner_item, ratings);
         userRatingSpinner.setAdapter(ratingAdapter);
         String userRating = mediaItem.getItemInfo("UserRating");
-        if(userRating.length() != 0) {
+        if(userRating.length() != 0 && !userRating.equals("N/A")) {
             userRatingSpinner.setSelection(Integer.parseInt(userRating));
         }
         userRatingSpinner.setOnTouchListener(new View.OnTouchListener() {
@@ -376,7 +376,7 @@ public class ItemSummary extends Fragment {
             createToast(R.string.no_list_to_add, Toast.LENGTH_SHORT);
         } else {
             for (MediaList list : listManager.allActiveLists()) {
-                linearLayout.addView(createCheckBox(list.getName(), listManager.getListOfMedia(list).contains(mediaItem)));
+                linearLayout.addView(createCheckBox(list.getListName(), listManager.getListOfMedia(list).contains(mediaItem)));
             }
             Button confirm = addListDialog.findViewById(R.id.media_add_list_btn);
             confirm.setOnClickListener(new View.OnClickListener() {

@@ -35,6 +35,8 @@ android {
 
 dependencies {
     def fragment_version = "1.2.4"
+    implementation 'com.google.firebase:firebase-firestore:21.6.0'
+    implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation "androidx.fragment:fragment:$fragment_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -51,9 +53,8 @@ dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.6.0'
     implementation group: 'com.squareup.okio', name: 'okio', version: '2.6.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'

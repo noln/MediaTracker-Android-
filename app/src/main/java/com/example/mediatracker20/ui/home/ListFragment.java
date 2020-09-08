@@ -1,6 +1,7 @@
 package com.example.mediatracker20.ui.home;
 
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -31,7 +32,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
 
+import model.jsonreaders.ItemManagerDocument;
+import model.jsonreaders.ListManagerDocument;
+import model.jsonreaders.TagManagerDocument;
 import model.model.ItemManager;
+import model.model.MediaItem;
+import model.model.Tag;
 import model.model.TagManager;
 import model.persistence.ReaderLoader;
 import model.persistence.Saver;
@@ -39,7 +45,12 @@ import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderLists;
 import com.example.mediatracker20.listselectors.ListItemLookup;
 import com.example.mediatracker20.adapters.MediaListAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -205,8 +216,9 @@ public class ListFragment extends Fragment {
                         searchView.setQuery("", false);
                         EditText name = newListDialog.findViewById(R.id.new_list_title);
                         try {
-                            listManager.addNewList(new MediaList(name.getText().toString()));
-                            allLists.add(new MediaList(name.getText().toString()));
+                            MediaList newList = new MediaList(name.getText().toString());
+                            listManager.addNewList(newList);
+                            allLists.add(newList);
                             newListDialog.dismiss();
                             mediaListAdapter.syncLists();
                             sortList(allLists);
@@ -252,6 +264,7 @@ public class ListFragment extends Fragment {
                 break;
         }
         mediaListAdapter.notifyDataSetChanged();
-}
+    }
+
 
 }
