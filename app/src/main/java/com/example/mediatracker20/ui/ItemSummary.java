@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import model.exceptions.DataExistAlreadyException;
 import model.exceptions.ItemNotFoundException;
 import model.exceptions.KeyAlreadyExistsException;
+import model.google.Database;
 import model.model.ItemManager;
 import model.model.ListManager;
 import model.model.MediaItem;
@@ -41,7 +42,6 @@ import model.model.MediaList;
 import model.model.MetaData;
 import model.model.Tag;
 import model.model.TagManager;
-import model.persistence.Saver;
 
 import static android.text.InputType.TYPE_NULL;
 
@@ -125,8 +125,10 @@ public class ItemSummary extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 userRatingSpinner.setSelection(position);
-                mediaItem.setItemInfo("UserRating", userRatingSpinner.getSelectedItem().toString());
-                Saver.getInstance().appChanged();
+                if(!userRatingSpinner.getSelectedItem().toString().equals(mediaItem.getItemInfo("UserRating")) && itemInAList()) {
+                    mediaItem.setItemInfo("UserRating", userRatingSpinner.getSelectedItem().toString());
+                    Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
+                }
             }
 
             @Override
@@ -165,8 +167,10 @@ public class ItemSummary extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 userStatusSpinner.setSelection(position);
-                mediaItem.setItemInfo("Status", userStatusSpinner.getSelectedItem().toString());
-                Saver.getInstance().appChanged();
+                if(!userStatusSpinner.getSelectedItem().toString().equals(mediaItem.getItemInfo("Status")) && itemInAList()) {
+                    mediaItem.setItemInfo("Status", userStatusSpinner.getSelectedItem().toString());
+                    Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
+                }
             }
 
             @Override
@@ -205,29 +209,29 @@ public class ItemSummary extends Fragment {
     private void initializeReviewButtons(TextView userReview) {
         TextView saveButton = view.findViewById(R.id.media_sum_user_rev_save);
         TextView cancelButton = view.findViewById(R.id.media_sum_user_rev_canc);
-        TextView deleteButton = view.findViewById(R.id.media_sum_user_rev_clear);
+        TextView clearButton = view.findViewById(R.id.media_sum_user_rev_clear);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemInAList()) {
+                if(itemInAList() && !userReview.getText().toString().equals(mediaItem.getItemInfo("UserReview"))) {
                     mediaItem.setItemInfo("UserReview", userReview.getText().toString());
-                }   else {
-                    createToast(R.string.add_to_list_first, Toast.LENGTH_SHORT);
-                }
-            }
-        });
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(itemInAList()) {
-                    mediaItem.setItemInfo("UserReview", "");
-                    userReview.setText("");
+                    Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
                 }   else {
                     createToast(R.string.add_to_list_first, Toast.LENGTH_SHORT);
                 }
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(itemInAList()) {
+                    userReview.setText(mediaItem.getItemInfo("UserReview"));
+                }   else {
+                    createToast(R.string.add_to_list_first, Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(itemInAList()) {
@@ -284,16 +288,18 @@ public class ItemSummary extends Fragment {
         for(int i = 0; i < dialogLayout.getChildCount(); i++) {
             CheckBox c = (CheckBox) dialogLayout.getChildAt(i);
             try {
-                if(c.isChecked()) {
-                    tagManager.tagItem(tagManager.getTagByName(c.getText().toString()), mediaItem);
-                } else {
-                    tagManager.removeTag(tagManager.getTagByName(c.getText().toString()), mediaItem);
+                Tag tag = tagManager.getTagByName(c.getText().toString());
+                if(c.isChecked() && !tagManager.mediaIsTaggedBy(tag, mediaItem)) {
+                    tagManager.tagItem(tag, mediaItem);
+                    Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
+                } else if(!c.isChecked() && tagManager.mediaIsTaggedBy(tag, mediaItem)){
+                    tagManager.removeTag(tag, mediaItem);
+                    Database.deleteInfo("Items", mediaItem.hashCode());
                 }
             } catch (ItemNotFoundException | DataExistAlreadyException e) {
                 System.out.println(c.getText().toString());
             }
         }
-        Saver.getInstance().appChanged();
         updateMainLayout(itemLayout);
     }
 
@@ -307,15 +313,16 @@ public class ItemSummary extends Fragment {
             @Override
             public void onClick(View v) {
                 if(name.getText().toString().length() != 0) {
+                    Tag tag = new Tag(name.getText().toString());
                     try {
-                        tagManager.addNewTag(new Tag(name.getText().toString()));
+                        tagManager.addNewTag(tag);
                         newTagDialog.hide();
                         CheckBox c = new CheckBox(getContext());
                         c.setTextSize(24);
                         c.setText(name.getText().toString());
                         dialogLayout.addView(c);
                         addTagDialog.show();
-                        Saver.getInstance().appChanged();
+                        Database.updateInfo(tag, "Tags", tag.hashCode());
                     } catch (KeyAlreadyExistsException e) {
                         e.printStackTrace();
                     }
@@ -385,7 +392,6 @@ public class ItemSummary extends Fragment {
                     for (int i = 0; i < linearLayout.getChildCount(); i++) {
                         addDeleteToLists(linearLayout, i);
                     }
-                    Saver.getInstance().appChanged();
                     addListDialog.hide();
                 }
             });
@@ -410,11 +416,17 @@ public class ItemSummary extends Fragment {
         CheckBox c = (CheckBox) linearLayout.getChildAt(i);
         try {
             MediaList list = listManager.getMediaListByName(c.getText().toString());
-            if (c.isChecked()) {
+            if (c.isChecked() && !listManager.getListOfMedia(list).contains(mediaItem)) {
                 listManager.addMediaItemToList(list, mediaItem);
+                Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
                 enableSpinners();
-            } else {
+            } else if(!c.isChecked() && listManager.getListOfMedia(list).contains(mediaItem)) {
                 listManager.deleteMediaItemFromList(list, mediaItem);
+                if(mediaItem.isActive()) {
+                    Database.updateInfo(mediaItem, "Items", mediaItem.hashCode());
+                } else {
+                    Database.deleteInfo("Items", mediaItem.hashCode());
+                }
             }
         } catch (ItemNotFoundException | DataExistAlreadyException | KeyAlreadyExistsException e) {
             e.printStackTrace();

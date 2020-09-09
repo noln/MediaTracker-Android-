@@ -1,7 +1,6 @@
 package com.example.mediatracker20.listselectors;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,10 +17,10 @@ import java.util.List;
 
 
 import model.exceptions.ItemNotFoundException;
+import model.google.Database;
 import model.model.ListManager;
 import model.model.MediaItem;
 import model.model.MediaList;
-import model.persistence.Saver;
 
 //Controls action mode for selection trackers
 public class ActionModeController implements ActionMode.Callback {
@@ -97,13 +96,13 @@ public class ActionModeController implements ActionMode.Callback {
                     currentList.remove(next);
                     try {
                         listManager.removeList(next);
+                        Database.deleteInfo("Lists", next.hashCode());
                     } catch (ItemNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 onDestroyActionMode(mode);
                 mediaListAdapter.notifyDataSetChanged();
-                Saver.getInstance().appChanged();
                 //snackbar
                 break;
             case "Move Item":

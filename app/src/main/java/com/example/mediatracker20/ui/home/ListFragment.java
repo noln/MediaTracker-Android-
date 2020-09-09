@@ -1,7 +1,6 @@
 package com.example.mediatracker20.ui.home;
 
 import android.app.Dialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -32,28 +31,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mediatracker20.R;
 
-import model.jsonreaders.ItemManagerDocument;
-import model.jsonreaders.ListManagerDocument;
-import model.jsonreaders.TagManagerDocument;
+import model.google.Database;
 import model.model.ItemManager;
-import model.model.MediaItem;
-import model.model.Tag;
 import model.model.TagManager;
-import model.persistence.ReaderLoader;
-import model.persistence.Saver;
+
 import com.example.mediatracker20.listselectors.ActionModeController;
 import com.example.mediatracker20.listselectors.KeyProviderLists;
 import com.example.mediatracker20.listselectors.ListItemLookup;
 import com.example.mediatracker20.adapters.MediaListAdapter;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +49,6 @@ import model.exceptions.EmptyStringException;
 import model.exceptions.KeyAlreadyExistsException;
 import model.model.ListManager;
 import model.model.MediaList;
-import model.persistence.Reader;
 
 //handles the main menu -> where all lists are displayed and interacted
 public class ListFragment extends Fragment {
@@ -222,7 +208,7 @@ public class ListFragment extends Fragment {
                             newListDialog.dismiss();
                             mediaListAdapter.syncLists();
                             sortList(allLists);
-                            Saver.getInstance().appChanged();
+                            Database.updateInfo(newList, "Lists", newList.hashCode());
                         } catch (KeyAlreadyExistsException e) {
                             errorText.setVisibility(View.VISIBLE);
                             errorText.setText(getString(R.string.list_already_exist));

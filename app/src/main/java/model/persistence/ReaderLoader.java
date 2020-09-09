@@ -1,67 +1,33 @@
 package model.persistence;
 
 import android.content.Context;
+import android.content.Intent;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.json.JSONException;
-
-
-import model.converters.Converter;
+import com.example.mediatracker20.MainActivity;
 import model.exceptions.ItemNotFoundException;
 import model.exceptions.KeyAlreadyExistsException;
-import model.jsonreaders.ItemManagerDocument;
-import model.jsonreaders.ListManagerDocument;
-import model.jsonreaders.ReadUserItem;
-import model.jsonreaders.TagManagerDocument;
 import model.model.ItemManager;
 import model.model.ListManager;
 import model.model.MediaItem;
 import model.model.MediaList;
 import model.model.Tag;
 import model.model.TagManager;
-
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderLoader {
 
 
-    // EFFECTS: save state of listColl to LISTS_FILE. Modeled after TellerApp
-    public static void saveProgram(ListManager listColl, TagManager tagManager, ItemManager itemManager, Context context) throws JSONException {
+    public static void loadInfo(Context context, List<MediaList> listRead, List<Tag> tagRead, List<MediaItem> mediaRead) {
         try {
-            //TagManager.getInstance().removeInactiveTags();
-            Writer writer = new Writer(new File(context.getFilesDir(), "listFile.txt"),
-                    new File(context.getFilesDir(), "tagFile.txt"), new File(context.getFilesDir(), "itemFile.txt"));
-            writer.write(listColl);
-            writer.write(tagManager);
-            writer.write(itemManager);
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Unable to save");
+            ReaderLoader.processListData(listRead, ListManager.getInstance());
+            ReaderLoader.processTagData(tagRead, TagManager.getInstance());
+            ReaderLoader.processUserItemData(mediaRead, ListManager.getInstance(), TagManager.getInstance(), ItemManager.getInstance());
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-//    // MODIFIES: this
-//    // EFFECTS: load info from LIST_FILE. Catch NullPointerException when there are no info in LIST_FILE
-//    public static void loadInfo(ListManager listColl, TagManager tagColl, ItemManager itemColl, Context context) throws IOException, KeyAlreadyExistsException {
-//        ArrayList<ReadUserItem> userItemRead = Reader.readItemFile(context.getFilesDir().getPath() + "/itemFile.txt");
-//        ArrayList<Tag> tagRead = Reader.readTagFile(context.getFilesDir().getPath() + "/tagFile.txt");
-//        ArrayList<MediaList> listRead = Reader.readListFile(context.getFilesDir().getPath() + "/listFile.txt");
-//        processListData(listRead, listColl);
-//        processTagData(tagRead, tagColl);
-//        processUserItemData(userItemRead, listColl, tagColl, itemColl);
-//    }
-
 
     // MODIFIES: this
     // EFFECTS Processes Tag data from files
@@ -102,15 +68,6 @@ public class ReaderLoader {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS Processes all user item
-    private static ArrayList<MediaItem> processAllItems(List<ReadUserItem> itemRead) {
-        ArrayList<MediaItem> mediaItemArrayList = new ArrayList<>();
-        for (ReadUserItem item: itemRead) {
-            mediaItemArrayList.add(Converter.readItemToMediaItem(item));
-        }
-        return mediaItemArrayList;
-    }
 
     // MODIFIES: this
     // EFFECTS load MediaItems to lists

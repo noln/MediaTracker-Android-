@@ -233,7 +233,7 @@
                     android:clickable="true"
                     android:drawableTop="@android:drawable/ic_menu_delete"
                     android:gravity="center"
-                    android:text="@string/action_delete"
+                    android:text="@string/action_cancel"
                     android:textStyle="bold" />
             </LinearLayout>
 

@@ -14,12 +14,13 @@
     <string name="copy_list">Copy</string>
     <string name="action_save">Save</string>
     <string name="action_clear">Clear</string>
-    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_all_items">Search</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="media_add_to_list">Add to List</string>
+    <string name="menu_sign_out">Sign out</string>
 
     <string name="home_second">Home Second</string>
     <string name="fail_to_sign_in">Sign In Failed</string>

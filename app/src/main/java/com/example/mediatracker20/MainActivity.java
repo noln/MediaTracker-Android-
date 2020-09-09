@@ -1,10 +1,11 @@
 package com.example.mediatracker20;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,37 +14,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import model.exceptions.KeyAlreadyExistsException;
-import model.jsonreaders.ItemManagerDocument;
-import model.jsonreaders.ListManagerDocument;
-import model.jsonreaders.TagManagerDocument;
-import model.model.ItemManager;
-import model.model.MediaItem;
-import model.model.MediaList;
-import model.model.Tag;
-import model.model.TagManager;
-import model.persistence.ReaderLoader;
-import model.persistence.Saver;
+import model.google.Authentication;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-import model.model.ListManager;
 
 //Main activity to navigate from lists to items
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.sign_out) {
+            Authentication.getInstance(this).signOut(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,15 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if (Saver.getInstance().isChanged()) {
-            db = FirebaseFirestore.getInstance();
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            Map<String, Object> data = new HashMap<>();
-            data.put("itemManager", ItemManager.getInstance().getAllMediaItems());
-            data.put("listManager", ListManager.getInstance().getAllLists());
-            data.put("tagManager", TagManager.getInstance().getAllTags());
-            db.collection("users").document(auth.getUid()).set(data);
-        }
         super.onStop();
     }
 
@@ -103,4 +79,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }
